@@ -530,11 +530,14 @@
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
                 <div class="progress-text">
-                    <span>0 টাকা</span>
-                    <span>20 টাকা</span>
+                    <span>5 টাকা</span>
+                    <span>22 টাকা</span>
                 </div>
             </div>
-            
+            <select id="payment-method">
+<option value="bkash">বিকাশ</option>
+<option value="nagad">নগদ</option>
+    </select>
             <div class="ad-status" id="ad-status">
                 <i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে প্রস্তুত
             </div>
@@ -1129,7 +1132,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
-                        console.log('উত্তোলন অনুরোধ অ্যাডমিন에게 পাঠানো হয়েছে');
+                        console.log('এখানে ২০ টাকা এবং ২০ টাকার বেশি থাকলেই উত্তোলন সফল হবে আচ্ছা বসায় দিছে ওইটা এখন ১১৩১ নাম্বার কি বসাবো);
                     } else {
                         console.error('উত্তোলন অনুরোধ পাঠানো যায়নি:', data);
                     }
