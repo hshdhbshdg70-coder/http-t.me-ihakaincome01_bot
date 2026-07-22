@@ -33,22 +33,22 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 80px;
+            padding-bottom: 90px;
         }
 
-        /* Top Header with Telegram Profile Style */
+        /* Top Header with Telegram Circular Profile Picture */
         .user-header {
             display: flex;
             align-items: center;
             padding: 15px 20px;
-            background: rgba(22, 33, 62, 0.9);
+            background: rgba(22, 33, 62, 0.95);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             gap: 12px;
         }
 
         .telegram-avatar {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: linear-gradient(135deg, #3b82f6, #9333ea);
             display: flex;
@@ -59,6 +59,7 @@
             font-weight: bold;
             border: 2px solid var(--primary-color);
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .telegram-avatar img {
@@ -137,6 +138,7 @@
             cursor: pointer;
             text-align: left;
             transition: 0.2s;
+            width: 100%;
         }
 
         .action-btn i {
@@ -163,7 +165,7 @@
             margin-bottom: 8px;
         }
 
-        /* Referral Box Style */
+        /* Referral Small Box & Copy Button */
         .ref-box-container {
             display: flex;
             align-items: center;
@@ -295,6 +297,7 @@
             cursor: pointer;
             background: none;
             border: none;
+            flex: 1;
         }
 
         .nav-item i {
@@ -351,7 +354,7 @@
 </head>
 <body>
 
-    <!-- Telegram User Profile Header -->
+    <!-- Telegram User Circular Profile Header -->
     <div class="user-header">
         <div class="telegram-avatar" id="user-avatar">
             <i class="fa-solid fa-user"></i>
@@ -373,11 +376,11 @@
             </div>
 
             <div class="action-grid">
-                <button class="action-btn" onclick="switchPage('tasks')">
+                <button class="action-btn" type="button" onclick="switchPage('tasks')">
                     <i class="fa-solid fa-play-circle" style="color: #10b981;"></i>
                     <span>কাজ শুরু করুন</span>
                 </button>
-                <button class="action-btn" onclick="switchPage('withdraw')">
+                <button class="action-btn" type="button" onclick="switchPage('withdraw')">
                     <i class="fa-solid fa-wallet" style="color: #ec4899;"></i>
                     <span>টাকা তুলুন</span>
                 </button>
@@ -400,12 +403,12 @@
                 <p style="font-size: 12px; opacity: 0.9;">টাস্ক বাকি আছে</p>
             </div>
 
-            <!-- Referral Link Box with Copy Button -->
+            <!-- Referral Link Small Box with Copy Button -->
             <div class="info-box">
                 <h3>আপনার রেফার লিংক (রসূল)</h3>
                 <div class="ref-box-container">
                     <div class="ref-input" id="ref-link-text">https://t.me/HaatKhorochBot?start=ref_Rasool_8661247328</div>
-                    <button class="copy-btn" onclick="copyRefLink()">কপি</button>
+                    <button class="copy-btn" type="button" onclick="copyRefLink()">কপি করুন</button>
                 </div>
             </div>
         </div>
@@ -423,7 +426,7 @@
                 </p>
             </div>
 
-            <button class="btn-primary-custom" onclick="startVideoAdTask()">
+            <button class="btn-primary-custom" type="button" onclick="startVideoAdTask()">
                 <i class="fa-solid fa-video"></i> ১৫ সেকেন্ড অ্যাড দেখুন (২ ৳)
             </button>
         </div>
@@ -487,7 +490,7 @@
                     <input type="number" class="form-control" id="pay-amount" placeholder="কমপক্ষে ২০.০০">
                 </div>
 
-                <button class="btn-primary-custom" onclick="requestWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
+                <button class="btn-primary-custom" type="button" onclick="requestWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
             </div>
 
             <!-- Withdraw History with Pending Box -->
@@ -507,31 +510,31 @@
             <i class="fa-solid fa-circle-check"></i>
             <h3>সফল!</h3>
             <p>🎉 আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন খুব দ্রুত পেমেন্ট করে দেবেন।</p>
-            <button class="btn-primary-custom" onclick="closeModal()">OK</button>
+            <button class="btn-primary-custom" type="button" onclick="closeModal()">OK</button>
         </div>
     </div>
 
     <!-- BOTTOM NAV BAR -->
     <div class="nav-bar">
-        <button class="nav-item active" onclick="switchPage('home', this)">
+        <button class="nav-item active" type="button" onclick="switchPage('home')">
             <i class="fa-solid fa-house"></i> Home
         </button>
-        <button class="nav-item" onclick="switchPage('tasks', this)">
+        <button class="nav-item" type="button" onclick="switchPage('tasks')">
             <i class="fa-solid fa-list-check"></i> Tasks
         </button>
-        <button class="nav-item" onclick="switchPage('top', this)">
+        <button class="nav-item" type="button" onclick="switchPage('top')">
             <i class="fa-solid fa-trophy"></i> Top
         </button>
-        <button class="nav-item" onclick="switchPage('support', this)">
+        <button class="nav-item" type="button" onclick="switchPage('support')">
             <i class="fa-solid fa-headset"></i> Support
         </button>
-        <button class="nav-item" onclick="switchPage('withdraw', this)">
+        <button class="nav-item" type="button" onclick="switchPage('withdraw')">
             <i class="fa-solid fa-wallet"></i> Withdraw
         </button>
     </div>
 
     <script>
-        // Telegram WebApp Safe Initialization & Page Navigation Fix
+        // Telegram WebApp Safe Initialization & Profile Picture Loader
         window.addEventListener('DOMContentLoaded', (event) => {
             try {
                 if (window.Telegram && window.Telegram.WebApp) {
@@ -554,17 +557,29 @@
         // Copy Referral Link Function
         function copyRefLink() {
             let refText = document.getElementById('ref-link-text').innerText;
-            navigator.clipboard.writeText(refText).then(() => {
-                alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
-            }).catch(err => {
-                let tempInput = document.createElement("input");
-                tempInput.value = refText;
-                document.body.appendChild(tempInput);
-                tempInput.select();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(refText).then(() => {
+                    alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
+                }).catch(() => {
+                    fallbackCopy(refText);
+                });
+            } else {
+                fallbackCopy(refText);
+            }
+        }
+
+        function fallbackCopy(text) {
+            let tempInput = document.createElement("input");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
                 document.execCommand("copy");
-                document.body.removeChild(tempInput);
                 alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
-            });
+            } catch (err) {
+                alert('কপি করতে সমস্যা হয়েছে!');
+            }
+            document.body.removeChild(tempInput);
         }
 
         let balance = 0.00;
@@ -572,24 +587,16 @@
         const maxTasks = 15;
         let historyData = [];
 
-        function switchPage(pageId, element) {
+        // Fixed Page Switching Logic
+        function switchPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-
-            if(element) {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                element.classList.add('active');
-            } else {
-                // Handle tab switching programmatically
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                if(pageId === 'home') document.querySelector('.nav-item:nth-child(1)').classList.add('active');
-                if(pageId === 'tasks') document.querySelector('.nav-item:nth-child(2)').classList.add('active');
-                if(pageId === 'top') document.querySelector('.nav-item:nth-child(3)').classList.add('active');
-                if(pageId === 'support') document.querySelector('.nav-item:nth-child(4)').classList.add('active');
-                if(pageId === 'withdraw') document.querySelector('.nav-item:nth-child(5)').classList.add('active');
+            let targetPage = document.getElementById('page-' + pageId);
+            if(targetPage) {
+                targetPage.classList.add('active');
             }
-            window.scrollTo(0, 0);
-        }
 
-        function updateMinLimit() {
-            let method = documen
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            let navButtons = document.querySelectorAll('.nav-item');
+            if(pageId === 'home') navButtons[0].classList.add('active');
+            if(pageId === 'tasks') navButtons[1].classList.add('active');
+            if(pageId === 'top')
