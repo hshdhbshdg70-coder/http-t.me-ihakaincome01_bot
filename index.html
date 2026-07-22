@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাকা আয় করুন - বিজ্ঞাপন দেখুন</title>
-    <!-- Monetag Ad SDK -->
-    <script src='//libtl.com/sdk.js' data-zone='11365410' data-sdk='show_11365410'></script>
+    <title>টাকা আয় করুন - রসুল মিডিয়া</title>
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='9472189' data-sdk='show_9472189'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -15,17 +15,12 @@
             --danger-color: #dc3545;
             --warning-color: #ffc107;
             --dark-color: #1a1a2e;
-            --light-color: #f8f9fa;
             --card-bg: #16213e;
-            --text-color: #808080;
+            --text-color: #ffffff;
             --text-muted: #adb5bd;
         }
         
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -36,7 +31,7 @@
             display: flex;
             flex-direction: column;
             padding: 15px;
-            padding-bottom: 70px;
+            padding-bottom: 80px; 
         }
 
         .top-profile-bar {
@@ -49,454 +44,110 @@
             margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .profile-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .profile-info { display: flex; align-items: center; gap: 10px; }
         .profile-avatar {
-            width: 40px;
-            height: 40px;
+            width: 40px; height: 40px;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            font-size: 16px;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-weight: bold; font-size: 16px;
         }
         .balance-badge {
             background: linear-gradient(45deg, #28a745, #11998e);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px;
         }
         
         .container {
-            max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-            background: rgba(22, 33, 62, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            padding-bottom: 20px;
-            backdrop-filter: blur(10px);
+            max-width: 500px; width: 100%; margin: 0 auto;
+            background: rgba(22, 33, 62, 0.9); border-radius: 15px;
+            padding-bottom: 20px; overflow: hidden;
         }
         
         .header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            border-bottom: 5px solid rgba(255, 255, 255, 0.1);
+            padding: 20px; text-align: center; border-bottom: 5px solid rgba(255, 255, 255, 0.1);
+        }
+        .header h1 { font-size: 24px; margin-bottom: 5px; }
+        
+        .stat-card, .task-card, .referral-section, .withdraw-section {
+            background-color: var(--card-bg); margin: 15px; padding: 15px; border-radius: 10px;
         }
         
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
+        .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px; }
+        .stat-card { text-align: center; }
+        .stat-card h3 { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+        .stat-card p { font-size: 24px; font-weight: 700; color: var(--primary-color); }
         
-        .badge {
-            display: inline-block;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 5px 12px;
-            border-radius: 50px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-        
-        .user-card, .stat-card, .progress-container, .referral-section, .rate-info, .withdraw-section, .ad-status, .task-card {
-            background-color: var(--card-bg);
-            margin: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .user-card {
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            margin-right: 15px;
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        
-        .stat-card {
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-card h3 {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-        }
-        
-        .stat-card p {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-        
-        .progress-container {
-            background: linear-gradient(to right, #0f0c29, #302b63);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin: 15px;
-        }
+        .progress-container { margin: 15px; }
+        .progress-bar { height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-bottom: 10px; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); width: 0%; transition: width 0.5s; }
         
         .btn {
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
+            padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 16px;
+            cursor: pointer; width: 100%; color: white; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;
         }
+        .btn-primary { background: linear-gradient(to right, var(--primary-color), #6a11cb); }
+        .btn-success { background: linear-gradient(to right, var(--success-color), #11998e); }
+        .btn-warning { background: linear-gradient(to right, var(--warning-color), #ff7e5f); color: #000; }
         
-        .btn-primary { 
-            background: linear-gradient(to right, var(--primary-color), #6a11cb);
-            color: white; 
-        }
-        
-        .btn-success { 
-            background: linear-gradient(to right, var(--success-color), #11998e);
-            color: white; 
-        }
-        
-        .btn-danger { 
-            background: linear-gradient(to right, var(--danger-color), #ff416c);
-            color: white; 
-        }
-        
-        .btn-warning { 
-            background: linear-gradient(to right, var(--warning-color), #ff7e5f);
-            color: white; 
-        }
-        
-        .btn-secondary { 
-            background: linear-gradient(to right, #2c3e50, #4ca1af);
-            color: #ffffff; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        
-        .btn-disabled {
-            background: #333;
-            color: #777;
-            cursor: not-allowed;
-        }
-
-        .btn:hover:not(.btn-disabled) { 
-            transform: translateY(-3px); 
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
-        }
-        
-        .btn:active { 
-            transform: translateY(0); 
-        }
-        
-        .btn:disabled { 
-            opacity: 0.6; 
-            cursor: not-allowed; 
-            transform: none; 
-            box-shadow: none; 
-        }
-        
-        .btn i { 
-            margin-right: 8px; 
-            font-size: 18px; 
-        }
-        
-        .section-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: white;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title i {
-            margin-right: 10px;
-            color: var(--secondary-color);
-        }
-        
-        .referral-stats {
-            display: flex;
-            justify-content: space-between;
-            background-color: rgba(0, 0, 0, 0.2);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        
-        .referral-link-container {
-            display: flex;
-            margin-top: 15px;
-        }
-        
-        #referral-link {
-            flex: 1;
-            padding: 12px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px 0 0 8px;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        #copy-referral {
-            padding: 0 15px;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-            border: none;
-            border-radius: 0 8px 8px 0;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        #copy-referral:hover {
-            opacity: 0.9;
-        }
-        
-        .withdraw-section { 
-            display: block; 
-        }
-        
-        .form-group { 
-            margin-bottom: 15px; 
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #ffffff;
-            font-size: 14px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        
-        .payment-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .payment-box {
-            flex: 1;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-        .payment-box.active {
-            border-color: var(--primary-color);
-            background: rgba(74, 107, 255, 0.2);
-        }
-        .payment-box img {
-            width: 70px;
-            height: 40px;
-            object-fit: contain;
-        }
-
-        .pending-history-card {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px dashed var(--warning-color);
-            border-radius: 10px;
-            padding: 12px;
-            margin-top: 15px;
-        }
-        .pending-status-badge {
-            display: inline-block;
-            background: var(--warning-color);
-            color: #000;
-            font-size: 11px;
-            font-weight: bold;
-            padding: 2px 8px;
+        /* কাস্টম ইয়ার্নিং এড বক্স (স্ক্রিনশটের মতো) */
+        .ad-banner-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px dashed var(--warning-color);
             border-radius: 12px;
-            float: right;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .ad-warning-text {
+            color: var(--warning-color);
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        .form-group { margin-bottom: 15px; }
+        .form-control { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; outline: none; }
         
+        .payment-options { display: flex; gap: 15px; margin-bottom: 15px; }
+        .payment-box { flex: 1; border: 2px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; }
+        .payment-box.active { border-color: var(--primary-color); background: rgba(74, 107, 255, 0.2); }
+        .payment-box img { width: 60px; height: 35px; object-fit: contain; }
+
+        .pending-history-card { background: rgba(0,0,0,0.3); border: 1px dashed var(--warning-color); border-radius: 10px; padding: 12px; margin-top: 15px; display: none; }
+        .pending-status-badge { background: var(--warning-color); color: #000; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 12px; float: right; }
+
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg);
+            display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000;
         }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; cursor: pointer; width: 25%; }
+        .nav-item.active { color: var(--primary-color); }
+        .nav-item i { font-size: 20px; margin-bottom: 5px; }
         
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 11px;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 10px;
-            width: 25%;
-            cursor: pointer;
-        }
-        
-        .nav-item.active {
-            color: var(--primary-color);
-            background: rgba(74, 107, 255, 0.2);
-        }
-        
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-        
-        .page-section {
-            display: none;
-        }
-        
-        .page-section.active {
-            display: block;
-        }
-        
-        .ad-container {
-            margin: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90px;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
     </style>
 </head>
 <body>
     <div class="container">
-
-        <!-- উপরে টপ প্রোফাইল ও ব্যালেন্স বার -->
         <div class="top-profile-bar">
             <div class="profile-info">
                 <div class="profile-avatar">R</div>
                 <div>
-                    <div style="font-size: 13px; font-weight: bold; color: white;">রসুল এর ইউজার</div>
+                    <div style="font-size: 13px; font-weight: bold;">রসুল এর ইউজার</div>
                     <div style="font-size: 11px; color: var(--text-muted);">ID: <span id="top-user-id">8950330778</span></div>
                 </div>
             </div>
-            <div class="balance-badge">
-                ৳ <span id="top-balance">4.00</span>
-            </div>
+            <div class="balance-badge">৳ <span id="top-balance">4.00</span></div>
         </div>
 
         <div class="header">
-            <h1>টাকা ইনকাম - রসুল মিডিয়া</h1>
+            <h1>টাকা আয় করুন</h1>
             <p>বিজ্ঞাপন দেখে আসল টাকা আয় করুন</p>
-            <div class="badge">সক্রিয়</div>
         </div>
         
-        <!-- ১. কাজ ও অ্যাড পেজ -->
+        <!-- ১. কাজ (Ads) পেজ -->
         <div class="page-section active" id="tab-1-ads">
-            <div class="user-card">
-                <div class="user-avatar" id="user-avatar">R</div>
-                <div class="user-info">
-                    <h3 id="user-name" style="color: white;">রসুল এর ইউজার</h3>
-                    <p>আইডি: <span id="user-id">8950330778</span></p>
-                </div>
-            </div>
-            
             <div class="stats-container">
                 <div class="stat-card">
                     <h3>দেখা বিজ্ঞাপন</h3>
@@ -509,73 +160,54 @@
             </div>
             
             <div class="progress-container">
-                <div class="progress-header">
-                    <h3 style="color: white;">আজকের অগ্রগতি (দৈনিক ৫০ টি)</h3>
+                <div style="display:flex; justify-content:space-between; margin-bottom: 10px; font-size: 12px;">
+                    <h3>দৈনিক লিমিট (৫০ টি)</h3>
                     <span id="ads-progress">0/50</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <div class="progress-text">
-                    <span>০ টাকা</span>
-                    <span>১ ১০০ টাকা</span>
+            </div>
+
+            <div class="task-card">
+                <div id="ad-status" style="text-align: center; margin-bottom: 15px; font-weight: bold;">
+                    <i class="fas fa-check-circle" style="color:var(--success-color);"></i> বিজ্ঞাপন দেখতে প্রস্তুত
                 </div>
-            </div>
-
-            <div class="ad-status" id="ad-status" style="text-align: center; color: white;">
-                <i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে প্রস্তুত
-            </div>
-            
-            <div class="task-card">
-                <h3 style="color: white;">১. বিজ্ঞাপন দেখে আয় করুন (১৫ সেকেণ্ড)</h3>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">বিজ্ঞাপনে ক্লিক করে ১৫ সেকেন্ড অপেক্ষা করুন</p>
-                <div class="action-buttons" style="margin: 0;">
-                    <button class="btn btn-primary" id="watch-ad-btn" onclick="watchAdWithTimer()">
-                        <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
-                    </button>
-                    <button class="btn btn-success" id="auto-ad-btn" onclick="startAutoAds()">
-                        <i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন
-                    </button>
-                    <button class="btn btn-danger" id="stop-auto-btn" onclick="stopAutoAds()" disabled>
-                        <i class="fas fa-stop"></i> বন্ধ করুন
-                    </button>
+                
+                <!-- স্ক্রিনশটের মত ইনকাম গ্যারান্টি বক্স -->
+                <div class="ad-banner-box">
+                    <h4 style="color: #fff; font-size: 15px; margin-bottom: 8px;">You are close to your reward!</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Just click 'Continue / Open' below to visit website.</p>
+                    
+                    <a href="https://www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js" target="_blank" style="text-decoration: none;">
+                        <button class="btn btn-warning" style="margin-top: 10px; margin-bottom: 5px;">
+                            <i class="fas fa-external-link-alt"></i> Open / Continue
+                        </button>
+                    </a>
+                    
+                    <div class="ad-warning-text">
+                        ⚠️ NO WEBSITE VISIT = NO REWARD ⚠️<br>
+                        Don't close until page opens!
+                    </div>
                 </div>
-            </div>
 
-            <div class="task-card">
-                <h3 style="color: white;">২. টিকটক আইডি ফলো করুন</h3>
-                <button class="btn btn-disabled" disabled><i class="fab fa-tiktok"></i> এই কাজ শীঘ্রই আসছে</button>
-            </div>
-
-            <div class="task-card">
-                <h3 style="color: white;">৩. Instagram / Telegram সাবস্ক্রাইব</h3>
-                <button class="btn btn-disabled" disabled><i class="fab fa-telegram"></i> এই কাজ শীঘ্রই আসছে</button>
-            </div>
-
-            <div class="rate-info">
-                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ২ টাকা</p>
-                <p><i class="fas fa-money-bill-wave"></i> সর্বনিম্ন উত্তোলন: ২০ টাকা</p>
-                <p><i class="fas fa-gift"></i> রেফারেল বোনাস: ৫ টাকা প্রতি ব্যবহারকারী</p>
+                <button class="btn btn-primary" id="watch-ad-btn" onclick="watchAd()">
+                    <i class="fas fa-play"></i> বিজ্ঞাপন চালু করুন (২ টাকা)
+                </button>
             </div>
         </div>
         
         <!-- ২. রেফার পেজ -->
         <div class="page-section" id="tab-2-refer">
             <div class="referral-section">
-                <h3 class="section-title"><i class="fas fa-users"></i> বন্ধুকে আমন্ত্রণ করুন</h3>
-                <div class="referral-stats">
-                    <div style="color: white;">আমন্ত্রিত: <strong id="referral-count">0</strong></div>
-                    <div style="color: white;">আয়: <strong id="referral-earnings">0.00</strong> টাকা</div>
-                </div>
-                
+                <h3 style="margin-bottom: 15px;"><i class="fas fa-users"></i> বন্ধুকে আমন্ত্রণ করুন</h3>
                 <div class="form-group">
-                    <label>আপনার অফিশিয়াল রেফার কোড:</label>
+                    <label>আপনার রেফার কোড:</label>
                     <input type="text" class="form-control" value="ROSUL" readonly style="text-align: center; font-weight: bold; font-size: 20px; color: var(--warning-color);">
                 </div>
-
-                <div class="referral-link-container">
-                    <input type="text" id="referral-link" value="https://taka-income.ao/ref?code=ROSUL" readonly>
-                    <button id="copy-referral" onclick="copyReferralLink()">কপি</button>
+                <div style="display: flex; margin-top: 15px;">
+                    <input type="text" id="referral-link" class="form-control" value="https://taka-income.ao/ref?code=ROSUL" readonly style="border-radius: 8px 0 0 8px;">
+                    <button class="btn btn-primary" onclick="copyReferralLink()" style="border-radius: 0 8px 8px 0; width: auto;">কপি</button>
                 </div>
             </div>
         </div>
@@ -583,24 +215,155 @@
         <!-- ৩. উইথড্র পেজ -->
         <div class="page-section" id="tab-3-withdraw">
             <div class="withdraw-section">
-                <h3 class="section-title"><i class="fas fa-wallet"></i> টাকা উত্তোলন (Withdraw)</h3>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">সর্বনিম্ন উত্তোলন পরিমাণ: <strong>২০ টাকা</strong></p>
-
-                <div class="form-group">
-                    <label>পেমেন্ট মেথড বেছে নিন:</label>
-                    <div class="payment-options">
-                        <div class="payment-box active" id="pay-bkash" onclick="selectPayment('bkash')">
-                            <img src="https://www.logo.wine/a/logo/BKash/BKash-bKash-Logo.wine.svg" alt="bKash">
-                            <div style="font-size: 12px; font-weight: bold; color: white;">বিকাশ</div>
-                        </div>
-                        <div class="payment-box" id="pay-nagad" onclick="selectPayment('nagad')">
-                            <img src="https://www.logo.wine/a/logo/Nagad/Nagad-Logo.wine.svg" alt="Nagad">
-                            <div style="font-size: 12px; font-weight: bold; color: white;">নগদ</div>
-                        </div>
+                <h3 style="margin-bottom: 15px;"><i class="fas fa-wallet"></i> টাকা উত্তোলন</h3>
+                
+                <div class="payment-options">
+                    <div class="payment-box active" id="pay-bkash" onclick="selectPayment('bkash')">
+                        <img src="https://www.logo.wine/a/logo/BKash/BKash-bKash-Logo.wine.svg" alt="bKash">
+                        <div style="font-size: 12px; font-weight: bold;">বিকাশ</div>
+                    </div>
+                    <div class="payment-box" id="pay-nagad" onclick="selectPayment('nagad')">
+                        <img src="https://www.logo.wine/a/logo/Nagad/Nagad-Logo.wine.svg" alt="Nagad">
+                        <div style="font-size: 12px; font-weight: bold;">নগদ</div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="withdraw-account">মোবাইল নম্বর (বিকাশ/নগদ):</label>
+                    <label>নম্বর:</label>
                     <input type="text" id="withdraw-account" class="form-control" placeholder="017xxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label>টাকার পরিমাণ (নূন্যতম ২০):</label>
+                    <input type="number" id="withdraw-amount-input" class="form-control" value="20" min="20">
+                </div>
+
+                <button class="btn btn-success" onclick="submitWithdraw()">উইথড্র রিকোয়েস্ট দিন</button>
+
+                <!-- পেন্ডিং ঘর -->
+                <div class="pending-history-card" id="pending-box">
+                    <span class="pending-status-badge">PENDING</span>
+                    <h4 style="color: var(--warning-color); font-size: 13px;"><i class="fas fa-spinner fa-spin"></i> উইথড্র প্রসেসিং এ আছে</h4>
+                    <div style="font-size: 12px; margin-top: 8px;">
+                        <p>মেথড: <strong id="p-method"></strong></p>
+                        <p>নম্বর: <strong id="p-number"></strong></p>
+                        <p>পরিমাণ: <strong id="p-amount"></strong> টাকা</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ৪. নোটিফিকেশন পেজ -->
+        <div class="page-section" id="tab-4-notif">
+            <div class="task-card">
+                <h3 style="margin-bottom: 15px;"><i class="fas fa-bell"></i> নোটিফিকেশন</h3>
+                <p>নতুন অ্যাকাউন্ট খোলার জন্য ৪ টাকা বোনাস দেওয়া হয়েছে!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- নেভিগেশন বার -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tab-1-ads', this)"><i class="fas fa-play-circle"></i>কাজ</div>
+        <div class="nav-item" onclick="switchTab('tab-2-refer', this)"><i class="fas fa-users"></i>রেফার</div>
+        <div class="nav-item" onclick="switchTab('tab-3-withdraw', this)"><i class="fas fa-wallet"></i>উইথড্র</div>
+        <div class="nav-item" onclick="switchTab('tab-4-notif', this)"><i class="fas fa-bell"></i>নোটিফিকেশন</div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = "8990206832:AAEgunqash1B9HIRct5Y85dRZf_LFm2f0Jk";
+        const CHAT_ID = "8950330778";
+        
+        let balance = parseFloat(localStorage.getItem('user_balance')) || 4.00;
+        let watchedAds = parseInt(localStorage.getItem('watched_ads')) || 0;
+        let pendingWithdraw = JSON.parse(localStorage.getItem('pending_withdraw')) || null;
+        let selectedMethod = 'bkash';
+        const maxDailyAds = 50;
+
+        function updateUI() {
+            localStorage.setItem('user_balance', balance);
+            localStorage.setItem('watched_ads', watchedAds);
+            document.getElementById('top-balance').innerText = balance.toFixed(2);
+            document.getElementById('earned-money').innerText = balance.toFixed(2);
+            document.getElementById('watched-ads').innerText = watchedAds;
+            document.getElementById('ads-progress').innerText = watchedAds + '/' + maxDailyAds;
+            document.getElementById('progress-fill').style.width = ((watchedAds / maxDailyAds) * 100) + '%';
+            
+            if(pendingWithdraw) {
+                document.getElementById('pending-box').style.display = 'block';
+                document.getElementById('p-method').innerText = pendingWithdraw.method.toUpperCase();
+                document.getElementById('p-number').innerText = pendingWithdraw.phone;
+                document.getElementById('p-amount').innerText = pendingWithdraw.amount;
+            }
+        }
+
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            el.classList.add('active');
+        }
+
+        function selectPayment(method) {
+            selectedMethod = method;
+            document.getElementById('pay-bkash').classList.remove('active');
+            document.getElementById('pay-nagad').classList.remove('active');
+            document.getElementById('pay-' + method).classList.add('active');
+        }
+
+        function watchAd() {
+            if(watchedAds >= maxDailyAds) { alert("আজকের ৫০টি বিজ্ঞাপনের লিমিট শেষ!"); return; }
+            let btn = document.getElementById('watch-ad-btn');
+            let status = document.getElementById('ad-status');
+            btn.disabled = true;
+            let t = 15;
+            
+            // Monetag SDK কল
+            if(typeof show_9472189 === 'function') {
+                try { show_9472189(); } catch(e){}
+            }
+
+            // সবসময় টাইমার চলবে এবং টাকা যোগ হবে
+            let timer = setInterval(() => {
+                status.innerHTML = `<i class="fas fa-play-circle" style="color: var(--success-color);"></i> বিজ্ঞাপন প্রসেসিং হচ্ছে... (${t} সেঃ)`;
+                t--;
+                if(t < 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    watchedAds++; balance += 2.0;
+                    updateUI();
+                    status.innerHTML = '<i class="fas fa-check-circle" style="color:var(--success-color);"></i> সফল হয়েছে! ২ টাকা যোগ হয়েছে।';
+                }
+            }, 1000);
+        }
+
+        function submitWithdraw() {
+            let phone = document.getElementById('withdraw-account').value;
+            let amount = parseFloat(document.getElementById('withdraw-amount-input').value);
+            if(phone.length < 11 || amount < 20 || amount > balance) { alert("সঠিক নম্বর বা পর্যাপ্ত ব্যালেন্স দিন!"); return; }
+            
+            balance -= amount;
+            pendingWithdraw = { method: selectedMethod, phone: phone, amount: amount };
+            localStorage.setItem('pending_withdraw', JSON.stringify(pendingWithdraw));
+            updateUI();
+            
+            let msg = `🚨 *Withdraw Request*\nMethod: ${selectedMethod}\nPhone: ${phone}\nAmount: ${amount}`;
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown'})
+            });
+            alert("উইথড্র সফল হয়েছে এবং পেন্ডিং এ রয়েছে!");
+        }
+
+        function copyReferralLink() {
+            document.getElementById("referral-link").select();
+            document.execCommand("copy");
+            alert("লিংক কপি করা হয়েছে!");
+        }
+
+        updateUI();
+    </script>
+</body>
+                </html>
     
