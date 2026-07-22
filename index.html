@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Rasool Earning - Telegram Mini App</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -29,6 +29,8 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
@@ -138,8 +140,8 @@
             gap: 12px;
             cursor: pointer;
             text-align: left;
-            transition: 0.2s;
             width: 100%;
+            touch-action: manipulation;
         }
 
         .action-btn i {
@@ -185,6 +187,8 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .copy-btn {
@@ -196,11 +200,7 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.95);
+            touch-action: manipulation;
         }
 
         /* Red Warning Text Box for Refer Bonus */
@@ -246,6 +246,7 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
             margin-top: 10px;
+            touch-action: manipulation;
         }
 
         /* Inputs & Selects */
@@ -268,6 +269,8 @@
             border-radius: 10px;
             color: white;
             font-size: 14px;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         /* History Items */
@@ -314,6 +317,7 @@
             border: none;
             flex: 1;
             padding: 5px 0;
+            touch-action: manipulation;
         }
 
         .nav-item i {
@@ -571,6 +575,17 @@
             } catch(e) {
                 console.log("Telegram context error ignored.");
             }
+
+            // Universal click fixer for all buttons in Telegram webview
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('pointerdown', function(e) {
+                    e.stopPropagation();
+                    // Direct trigger click instantly on touch/pointer down
+                    if(this.getAttribute('onclick')) {
+                        // Let inline onclick handle it or trigger manually if needed
+                    }
+                });
+            });
         });
 
         // Copy Referral Link Function
@@ -578,30 +593,4 @@
             let refText = document.getElementById('ref-link-text').innerText;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(refText).then(() => {
-                    alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
-                }).catch(() => {
-                    fallbackCopy(refText);
-                });
-            } else {
-                fallbackCopy(refText);
-            }
-        }
-
-        function fallbackCopy(text) {
-            let tempInput = document.createElement("input");
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
-                document.execCommand("copy");
-                alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
-            } catch (err) {
-                alert('কপি করতে সমস্যা হয়েছে!');
-            }
-            document.body.removeChild(tempInput);
-        }
-
-        let balance = 0.00;
-        let completedTasks = 0;
-        const maxTasks = 50; // Set to 50 tasks
-   
+                    alert('রেফার লিংক সফলভাবে ক
