@@ -17,20 +17,13 @@
             --success-color: #28a745;
             --danger-color: #dc3545;
             --warning-color: #ffc107;
-            --dark-color: #1a1a2e;
             --card-bg: #16213e;
             --text-color: #ffffff;
             --text-muted: #adb5bd;
-            --wood-bg: #2d1a0e;
             --wood-border: #8b5a2b;
         }
         
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         body {
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -62,13 +55,9 @@
             text-align: center;
             border-bottom: 3px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .header h1 {
-            font-size: 20px;
-            font-weight: 700;
-        }
+        .header h1 { font-size: 20px; font-weight: 700; }
 
-        /* Wooden Dashboard Box */
+        /* কাঠের ড্যাশবোর্ড বক্স */
         .wood-card {
             background: linear-gradient(145deg, #3a2213, #23140b);
             border: 3px solid var(--wood-border);
@@ -77,73 +66,30 @@
             padding: 15px;
             box-shadow: inset 0 0 10px #000000, 0 5px 15px rgba(0, 0, 0, 0.4);
         }
+        .user-info { display: flex; align-items: center; border-bottom: 1px dashed var(--wood-border); padding-bottom: 10px; margin-bottom: 10px; }
+        .user-avatar { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; margin-right: 12px; border: 2px solid var(--wood-border); }
+        .user-details h3 { font-size: 15px; color: #f3d4a0; }
+        .user-details p { font-size: 12px; color: var(--text-muted); }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: center; }
+        .stat-box { background: rgba(0, 0, 0, 0.3); padding: 8px; border-radius: 8px; border: 1px solid rgba(139, 90, 43, 0.4); }
+        .stat-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+        .stat-box p { font-size: 16px; font-weight: bold; color: #ffca28; }
 
-        .user-info {
+        /* Task & Payment Cards */
+        .task-card {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            border-bottom: 1px dashed var(--wood-border);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            justify-content: space-between;
         }
+        .task-info h4 { font-size: 14px; margin-bottom: 3px; }
+        .task-info p { font-size: 12px; color: var(--text-muted); }
 
-        .user-avatar {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 18px;
-            color: white;
-            margin-right: 12px;
-            border: 2px solid var(--wood-border);
-        }
-
-        .user-details h3 {
-            font-size: 15px;
-            color: #f3d4a0;
-        }
-
-        .user-details p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            text-align: center;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid rgba(139, 90, 43, 0.4);
-        }
-
-        .stat-box h4 {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 3px;
-        }
-
-        .stat-box p {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffca28;
-        }
-
-        /* Payment Select Options with Logos */
-        .payment-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
+        .payment-options { display: flex; gap: 15px; margin-bottom: 15px; }
         .pay-card {
             flex: 1;
             background: rgba(0, 0, 0, 0.3);
@@ -154,113 +100,59 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .pay-card.selected {
-            border-color: var(--primary-color);
-            background: rgba(74, 107, 255, 0.15);
-        }
-
-        .pay-card img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            margin-bottom: 5px;
-            border-radius: 8px;
-        }
+        .pay-card.selected { border-color: var(--primary-color); background: rgba(74, 107, 255, 0.15); }
+        .pay-card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; border-radius: 8px; }
 
         /* Bottom Nav */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: fixed; bottom: 0; left: 0; right: 0;
             background: var(--card-bg);
-            display: flex;
-            justify-content: space-around;
+            display: flex; justify-content: space-around;
             padding: 10px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
             z-index: 1000;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 11px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            width: 25%;
-        }
-        
-        .nav-item.active {
-            color: var(--primary-color);
-        }
-        
-        .nav-item i {
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--text-muted); text-decoration: none; font-size: 11px; cursor: pointer; width: 25%; }
+        .nav-item.active { color: var(--primary-color); }
+        .nav-item i { font-size: 18px; margin-bottom: 4px; }
 
         .page-section { display: none; }
         .page-section.active { display: block; }
 
-        /* Buttons & Forms */
         .btn {
-            width: 100%;
-            padding: 14px;
+            padding: 10px 15px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 13px;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform 0.2s;
+            gap: 5px;
+            color: white;
         }
-
-        .btn-primary { background: linear-gradient(to right, var(--primary-color), #6a11cb); color: white; }
-        .btn-success { background: linear-gradient(to right, var(--success-color), #11998e); color: white; }
+        .btn-primary { background: linear-gradient(to right, var(--primary-color), #6a11cb); }
+        .btn-success { background: linear-gradient(to right, var(--success-color), #11998e); width: 100%; justify-content: center; padding: 14px; font-size: 15px; }
         .btn:active { transform: scale(0.98); }
 
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-muted); }
         .form-control {
-            width: 100%;
-            padding: 12px;
+            width: 100%; padding: 12px;
             background-color: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: white;
-            outline: none;
+            border-radius: 8px; color: white; outline: none;
         }
 
         .ad-container {
-            margin: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            overflow: hidden;
+            margin: 15px; display: flex; justify-content: center; align-items: center;
+            min-height: 60px; background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; overflow: hidden;
         }
 
-        .status-box {
-            background: var(--card-bg);
-            margin: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 13px;
-        }
-
+        .status-box { background: var(--card-bg); margin: 15px; padding: 15px; border-radius: 10px; font-size: 13px; }
         .pending-card {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border-left: 4px solid var(--warning-color);
             padding: 10px;
             border-radius: 6px;
@@ -275,7 +167,7 @@
             <h1>টাকা আয় করুন - Telegram App</h1>
         </div>
 
-        <!-- কাঠের চারকোনা ড্যাশবোর্ড বক্স -->
+        <!-- ড্যাশবোর্ড -->
         <div class="wood-card">
             <div class="user-info">
                 <div class="user-avatar" id="user-avatar">U</div>
@@ -290,13 +182,13 @@
                     <p><span id="earned-money">0.00</span> ৳</p>
                 </div>
                 <div class="stat-box">
-                    <h4>দেখা অ্যাড</h4>
+                    <h4>সম্পন্ন কাজ</h4>
                     <p id="watched-ads">0</p>
                 </div>
             </div>
         </div>
 
-        <!-- প্রথম অ্যাড -->
+        <!-- প্রথম অ্যাড ব্যানার -->
         <div class="ad-container">
             <center>
                 <script type="text/javascript">
@@ -308,20 +200,50 @@
                         'params' : {}
                     };
                 </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
+                <script type="text/javascript" src="https://www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
             </center>
         </div>
 
-        <!-- ১. হোম পেজ -->
+        <!-- ১. হোম পেজ (কাজ ও অ্যাড দেখার অপশন) -->
         <div class="page-section active" id="home-page">
             <div style="margin: 15px;">
-                <button class="btn btn-primary" onclick="watchAd()">
-                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
-                </button>
-            </div>
+                <h3 style="font-size: 16px; margin-bottom: 12px; color: #ffca28;"><i class="fas fa-tasks"></i> প্রতিদিনের আয় করুন</h3>
+                
+                <!-- অ্যাড দেখার টাস্ক (২ টাকা) -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <h4>বিজ্ঞাপন দেখুন</h4>
+                        <p>প্রতি এডে আয় ২.০০ টাকা</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="doTask('Ad', 2.00)">শুরু করুন</button>
+                </div>
 
-            <div class="status-box" style="text-align: center;">
-                <p><i class="fas fa-info-circle"></i> প্রতি এডে পাবেন ২ টাকা এবং প্রতি রেফারে পাবেন ৫ টাকা।</p>
+                <!-- ইউটিউব টাস্ক (৩ টাকা) -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <h4>ইউটিউব ভিডিও দেখুন</h4>
+                        <p>সাবস্ক্রাইব ও ওয়াচ - ৩.০০ টাকা</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="doTask('YouTube', 3.00, 'https://youtube.com')">কাজ করুন</button>
+                </div>
+
+                <!-- ফেসবুক টাস্ক (২ টাকা) -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <h4>ফেসবুক পেজ লাইক</h4>
+                        <p>সোশ্যাল টাস্ক - ২.০০ টাকা</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="doTask('Facebook', 2.00, 'https://facebook.com')">কাজ করুন</button>
+                </div>
+
+                <!-- টিকটক টাস্ক (৩ টাকা) -->
+                <div class="task-card">
+                    <div class="task-info">
+                        <h4>টিকটক ফলো</h4>
+                        <p>ভিডিও লাইক ও ফলো - ৩.০০ টাকা</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="doTask('TikTok', 3.00, 'https://tiktok.com')">কাজ করুন</button>
+                </div>
             </div>
         </div>
 
@@ -356,10 +278,11 @@
                 </button>
             </div>
 
+            <!-- উইথড্র পেন্ডিং বক্স -->
             <div class="status-box">
-                <h3 style="font-size: 14px;">উইথড্র হিস্ট্রি / পেন্ডিং:</h3>
+                <h3 style="font-size: 14px; margin-bottom: 8px;">উইথড্র পেন্ডিং হিস্ট্রি:</h3>
                 <div id="pending-container">
-                    <p style="color: var(--text-muted); font-size: 12px; margin-top: 5px;">কোনো পেন্ডিং উইথড্র নেই</p>
+                    <p style="color: var(--text-muted); font-size: 12px;">কোনো পেন্ডিং উইথড্র নেই</p>
                 </div>
             </div>
         </div>
@@ -380,11 +303,11 @@
         <div class="page-section" id="notif-page">
             <div class="status-box">
                 <h3 style="margin-bottom: 10px;"><i class="fas fa-bell"></i> ইনবক্স</h3>
-                <p>🔔 আমাদের টেলিগ্রাম মিনি অ্যাপে আপনাকে স্বাগতম!</p>
+                <p>🔔 আমাদের টেলিগ্রাম মিনি অ্যাপে আপনাকে স্বাগতম! নিয়মিত কাজ করে আয় করুন।</p>
             </div>
         </div>
 
-        <!-- দ্বিতীয় অ্যাড -->
+        <!-- দ্বিতীয় অ্যাড ব্যানার -->
         <div class="ad-container">
             <center>
                 <script type="text/javascript">
@@ -396,12 +319,12 @@
                         'params' : {}
                     };
                 </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
+                <script type="text/javascript" src="https://www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
             </center>
         </div>
     </div>
 
-    <!-- ৪টি নেভিগেশন ট্যাব -->
+    <!-- নেভিগেশন বার -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="showTab('home-page', this)">
             <i class="fas fa-home"></i>
@@ -429,8 +352,9 @@
         if(tg) tg.expand();
 
         let balance = parseFloat(localStorage.getItem('user_balance')) || 0.00;
-        let adCount = parseInt(localStorage.getItem('user_ads')) || 0;
+        let taskCount = parseInt(localStorage.getItem('user_tasks')) || 0;
         let selectedMethod = 'bKash';
+        let pendingList = JSON.parse(localStorage.getItem('user_pendings')) || [];
 
         const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
         const name = tgUser ? (tgUser.first_name + " " + (tgUser.last_name || "")) : "Demo_User";
@@ -444,9 +368,28 @@
 
         function updateData() {
             document.getElementById('earned-money').innerText = balance.toFixed(2);
-            document.getElementById('watched-ads').innerText = adCount;
+            document.getElementById('watched-ads').innerText = taskCount;
             localStorage.setItem('user_balance', balance);
-            localStorage.setItem('user_ads', adCount);
+            localStorage.setItem('user_tasks', taskCount);
+            renderPendings();
+        }
+
+        function renderPendings() {
+            const container = document.getElementById('pending-container');
+            if(pendingList.length === 0) {
+                container.innerHTML = `<p style="color: var(--text-muted); font-size: 12px;">কোনো পেন্ডিং উইথড্র নেই</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            pendingList.forEach(item => {
+                container.innerHTML += `
+                    <div class="pending-card">
+                        <p style="color: #ffcc00; font-weight: bold;">⏳ পেন্ডিং আছে</p>
+                        <p>মেথড: <b>${item.method}</b> (${item.acc})</p>
+                        <p>পরিমাণ: <b>${item.amount.toFixed(2)} টাকা</b></p>
+                    </div>
+                `;
+            });
         }
         updateData();
 
@@ -457,25 +400,27 @@
             el.classList.add('active');
         }
 
-        function watchAd() {
-            if (typeof show_11365410 === 'function') {
+        // Universal Task & Ad Handler
+        function doTask(type, reward, link = "") {
+            if (type === 'Ad' && typeof show_11365410 === 'function') {
                 show_11365410().then(() => {
-                    balance += 2.00;
-                    adCount += 1;
-                    updateData();
-                    alert("বিজ্ঞাপন দেখার জন্য ধন্যবাদ! আপনি ২ টাকা পেয়েছেন।");
+                    completeTaskReward(reward);
                 }).catch(() => {
-                    balance += 2.00;
-                    adCount += 1;
-                    updateData();
-                    alert("আপনি ২ টাকা পেয়েছেন!");
+                    completeTaskReward(reward);
                 });
             } else {
-                balance += 2.00;
-                adCount += 1;
-                updateData();
-                alert("আপনি ২ টাকা পেয়েছেন!");
+                if(link) window.open(link, '_blank');
+                setTimeout(() => {
+                    completeTaskReward(reward);
+                }, 3000);
             }
+        }
+
+        function completeTaskReward(reward) {
+            balance += reward;
+            taskCount += 1;
+            updateData();
+            alert(`অভিনন্দন! আপনি ${reward} টাকা পেয়েছেন।`);
         }
 
         function setPayment(method) {
@@ -517,38 +462,4 @@
 
                 if(data.ok) {
                     balance -= amount;
-                    updateData();
-
-                    const container = document.getElementById('pending-container');
-                    container.innerHTML = `
-                        <div class="pending-card">
-                            <p style="color: #ffcc00; font-weight: bold;">⏳ পেন্ডিং আছে</p>
-                            <p>মেথড: <b>${selectedMethod}</b> (${accNum})</p>
-                            <p>পরিমাণ: <b>${amount.toFixed(2)} টাকা</b></p>
-                        </div>
-                    `;
-
-                    alert("আপনার উইথড্র রিকোয়েস্ট জমা হয়েছে! এডমিন খুব দ্রুত টাকা পাঠাবে।");
-                    document.getElementById('withdraw-acc').value = '';
-                    document.getElementById('withdraw-amt').value = '';
-                } else {
-                    alert("উইথড্র রিকোয়েস্ট পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন।");
-                }
-            })
-            .catch(err => {
-                btn.disabled = false;
-                btn.innerText = "উইথড্র করুন";
-                alert("নেটওয়ার্ক সমস্যা! পুনরায় চেষ্টা করুন।");
-            });
-        }
-
-        function copyLink() {
-            const copyText = document.getElementById("referral-link");
-            copyText.select();
-            document.execCommand("copy");
-            alert("রেফারেল লিংক কপি হয়েছে!");
-        }
-    </script>
-</body>
-    </html>
-    
+                    pendingList.push({ method: selectedMethod, acc: accNum, amount: amo
