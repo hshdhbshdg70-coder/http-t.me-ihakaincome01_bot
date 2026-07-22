@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাকা আয় করুন - বিজ্ঞাপন দেখুন</title>
-    <script src='//libtl.com/sdk.js' data-zone='9472189' data-sdk='show_9472189'></script>
+    <title>টাকা আয় করুন - রসুল টাকা ইনকাম</title>
+    <!-- Monetag Ad SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='11365410' data-sdk='show_11365410'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -16,7 +17,7 @@
             --dark-color: #1a1a2e;
             --light-color: #f8f9fa;
             --card-bg: #16213e;
-            --text-color: #808080,
+            --text-color: #ffffff;
             --text-muted: #adb5bd;
         }
         
@@ -35,7 +36,44 @@
             display: flex;
             flex-direction: column;
             padding: 15px;
-            padding-bottom: 70px; /* নেভিগেশন বারের জন্য স্থান */
+            padding-bottom: 80px;
+        }
+
+        .top-profile-bar {
+            background: rgba(22, 33, 62, 0.95);
+            padding: 10px 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+        }
+        .balance-badge {
+            background: linear-gradient(45deg, #28a745, #11998e);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         
         .container {
@@ -75,7 +113,7 @@
             margin-top: 10px;
         }
         
-        .user-card, .stat-card, .progress-container, .referral-section, .rate-info, .withdraw-section, .ad-status {
+        .user-card, .stat-card, .progress-container, .referral-section, .rate-info, .withdraw-section, .ad-status, .task-card {
             background-color: var(--card-bg);
             margin: 15px;
             padding: 15px;
@@ -106,9 +144,11 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            margin: 15px;
         }
         
         .stat-card {
+            margin: 0;
             text-align: center;
             transition: transform 0.3s ease;
         }
@@ -181,26 +221,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            color: white;
         }
         
         .btn-primary { 
             background: linear-gradient(to right, var(--primary-color), #6a11cb);
-            color: white; 
         }
         
         .btn-success { 
             background: linear-gradient(to right, var(--success-color), #11998e);
-            color: white; 
         }
         
         .btn-danger { 
             background: linear-gradient(to right, var(--danger-color), #ff416c);
-            color: white; 
         }
         
         .btn-warning { 
             background: linear-gradient(to right, var(--warning-color), #ff7e5f);
-            color: white; 
         }
         
         .btn-secondary { 
@@ -208,21 +246,16 @@
             color: var(--text-color); 
             border: 1px solid rgba(255, 255, 255, 0.1); 
         }
+
+        .btn-disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+        }
         
-        .btn:hover { 
+        .btn:hover:not(.btn-disabled) { 
             transform: translateY(-3px); 
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
-        }
-        
-        .btn:active { 
-            transform: translateY(0); 
-        }
-        
-        .btn:disabled { 
-            opacity: 0.6; 
-            cursor: not-allowed; 
-            transform: none; 
-            box-shadow: none; 
         }
         
         .btn i { 
@@ -276,17 +309,33 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
-        
-        #copy-referral:hover {
-            opacity: 0.9;
+
+        .payment-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
         }
-        
-        .withdraw-section { 
-            display:block ; 
+        .payment-box {
+            flex: 1;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
         }
-        
+        .payment-box.active {
+            border-color: var(--primary-color);
+            background: rgba(74, 107, 255, 0.2);
+        }
+        .payment-box img {
+            width: 70px;
+            height: 40px;
+            object-fit: contain;
+        }
+
         .form-group { 
             margin-bottom: 15px; 
         }
@@ -307,104 +356,26 @@
             color: var(--text-color);
             font-size: 14px;
             outline: none;
-            transition: all 0.3s ease;
         }
         
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(74, 107, 255, 0.3);
-        }
-        
-        #withdraw-status {
+        .pending-history-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed var(--warning-color);
+            border-radius: 10px;
+            padding: 12px;
             margin-top: 15px;
-            font-size: 14px;
-            text-align: center;
-            padding: 10px;
-            border-radius: 8px;
         }
-        
-        .success-message { 
-            background-color: rgba(40, 167, 69, 0.2); 
-            color: var(--success-color); 
+        .pending-status-badge {
+            display: inline-block;
+            background: var(--warning-color);
+            color: #000;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 12px;
+            float: right;
         }
-        
-        .error-message { 
-            background-color: rgba(220, 53, 69, 0.2); 
-            color: var(--danger-color); 
-        }
-        
-        .info-message { 
-            background-color: rgba(74, 107, 255, 0.2); 
-            color: var(--primary-color); 
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px;
-            border-radius: 8px;
-            background: var(--card-bg);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            transform: translateX(150%);
-            transition: transform 0.5s ease;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-        
-        .notification.success {
-            border-left: 4px solid var(--success-color);
-        }
-        
-        .notification.error {
-            border-left: 4px solid var(--danger-color);
-        }
-        
-        .notification.info {
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse { 
-            animation: pulse 1.5s infinite; 
-        }
-        
-        @keyframes coinAnimation {
-            0% { transform: translateY(0) rotate(0); opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-        
-        .coin-animation {
-            position: absolute;
-            font-size: 24px;
-            color: gold;
-            z-index: 100;
-            animation: coinAnimation 1s forwards;
-        }
-        
-        /* নেভিগেশন বার স্টাইল */
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -414,8 +385,9 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .nav-item {
@@ -425,28 +397,20 @@
             text-align: center;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 12px;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 10px;
+            font-size: 11px;
+            cursor: pointer;
             width: 25%;
         }
         
         .nav-item.active {
             color: var(--primary-color);
-            background: rgba(74, 107, 255, 0.2);
         }
         
         .nav-item i {
             font-size: 20px;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
-        .nav-item:hover {
-            color: var(--primary-color);
-        }
-        
-        /* পেজ সেকশন স্টাইল */
         .page-section {
             display: none;
         }
@@ -455,7 +419,6 @@
             display: block;
         }
         
-        /* বিজ্ঞাপন কন্টেইনার স্টাইল */
         .ad-container {
             margin: 15px;
             display: flex;
@@ -466,50 +429,33 @@
             border-radius: 10px;
             overflow: hidden;
         }
-        
-        @media (max-width: 400px) {
-            .header h1 { font-size: 20px; }
-            .stats-container { grid-template-columns: 1fr; }
-            .btn { padding: 12px; font-size: 14px; }
-            .nav-item { font-size: 10px; padding: 5px; }
-            .nav-item i { font-size: 18px; }
-        }
     </style>
 </head>
 <body>
     <div class="container">
+
+        <!-- উপরে ইউজার ও ব্যালেন্স -->
+        <div class="top-profile-bar">
+            <div class="profile-info">
+                <div class="profile-avatar">R</div>
+                <div>
+                    <div style="font-size: 13px; font-weight: bold;">রসুল এর ইউজার</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">ID: <span id="top-user-id">8950330778</span></div>
+                </div>
+            </div>
+            <div class="balance-badge">
+                ৳ <span id="top-balance">4.00</span>
+            </div>
+        </div>
+
         <div class="header">
-            <h1>টাকা আয় করুন - বিজ্ঞাপন দেখুন</h1>
+            <h1>টাকা ইনকাম - রসুল মিডিয়া</h1>
             <p>বিজ্ঞাপন দেখে আসল টাকা আয় করুন</p>
             <div class="badge">সক্রিয়</div>
         </div>
         
-        <!-- হেডার এর নিচে প্রথম বিজ্ঞাপন -->
-        <div class="ad-container">
-            <center>
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'af3ac5da264d48edf05886e0c3d572c2',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="//www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
-            </center>
-        </div>
-        
-        <!-- হোম পেজ -->
-        <div class="page-section active" id="home-page">
-            <div class="user-card">
-                <div class="user-avatar" id="user-avatar">U</div>
-                <div class="user-info">
-                    <h3 id="user-name">ব্যবহারকারী</h3>
-                    <p>আইডি: <span id="user-id">12345</span></p>
-                </div>
-            </div>
-            
+        <!-- ১. টাস্ক ও অ্যাড পেজ -->
+        <div class="page-section active" id="tab-1-ads">
             <div class="stats-container">
                 <div class="stat-card">
                     <h3>দেখা বিজ্ঞাপন</h3>
@@ -517,646 +463,124 @@
                 </div>
                 <div class="stat-card">
                     <h3>আয়কৃত টাকা</h3>
-                    <p id="earned-money">0.00 <small>টাকা</small></p>
+                    <p id="earned-money">4.00 <small>টাকা</small></p>
                 </div>
             </div>
             
             <div class="progress-container">
-                <div class="progress-header">
-                    <h3>আজকের অগ্রগতি</h3>
-                    <span id="ads-progress">0/10</span>
+                <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
+                    <h3>দৈনিক লিমিট (৫০ টি)</h3>
+                    <span id="ads-progress">0/50</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progress-fill"></div>
                 </div>
-                <div class="progress-text">
-                    <span>5 টাকা</span>
-                    <span>22 টাকা</span>
-                </div>
             </div>
-            <select id="payment-method">
-<option value="bkash">বিকাশ</option>
-<option value="nagad">নগদ</option>
-    </select>
-            <div class="ad-status" id="ad-status">
-                <i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে প্রস্তুত
+
+            <div class="ad-status" id="ad-status" style="text-align: center;">
+                <i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে রেডি থাকুন
             </div>
             
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="watch-ad-btn" onclick="watchAd()">
+            <div class="task-card">
+                <h3>১. বিজ্ঞাপন দেখে আয় করুন (১৫ সেকেণ্ড)</h3>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">বিজ্ঞাপনে ক্লিক করে ১৫ সেকেন্ড অপেক্ষা করুন</p>
+                <button class="btn btn-primary" id="watch-ad-btn" onclick="watchAdWithTimer()">
                     <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
                 </button>
-                <button class="btn btn-success" id="auto-ad-btn" onclick="startAutoAds()">
-                    <i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন
-                </button>
-                <button class="btn btn-danger" id="stop-auto-btn" onclick="stopAutoAds()" disabled>
-                    <i class="fas fa-stop"></i> বন্ধ করুন
-                </button>
-                <button class="btn btn-secondary" onclick="showWithdrawForm()">
-                    <i class="fas fa-wallet"></i> টাকা উত্তোলন
-                </button>
             </div>
-            
-            <!-- পৃষ্ঠার মাঝখানে দ্বিতীয় বিজ্ঞাপন -->
-            <div class="ad-container">
-                <center>
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'af3ac5da264d48edf05886e0c3d572c2',
-                            'format' : 'iframe',
-                            'height' : 50,
-                            'width' : 320,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="//www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
-                </center>
+
+            <div class="task-card">
+                <h3>২. টিকটক আইডি ফলো করুন</h3>
+                <button class="btn btn-disabled" disabled><i class="fab fa-tiktok"></i> কাজ শীঘ্রই আসছে</button>
             </div>
-            
+
+            <div class="task-card">
+                <h3>৩. Instagram / Telegram সাবস্ক্রাইব</h3>
+                <button class="btn btn-disabled" disabled><i class="fab fa-telegram"></i> কাজ শীঘ্রই আসছে</button>
+            </div>
+        </div>
+        
+        <!-- ২. রেফার পেজ -->
+        <div class="page-section" id="tab-2-refer">
             <div class="referral-section">
-                <h3 class="section-title"><i class="fas fa-users"></i> বন্ধুকে আমন্ত্রণ করুন</h3>
-                <div class="referral-stats">
-                    <div>আমন্ত্রিত: <strong id="referral-count">0</strong></div>
-                    <div>আয়: <strong id="referral-earnings">0.00</strong> টাকা</div>
+                <h3 class="section-title"><i class="fas fa-users"></i> বন্ধুকে রেফার করুন</h3>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>আপনার অফিশিয়াল রেফার কোড:</label>
+                    <input type="text" class="form-control" value="ROSUL" readonly style="text-align: center; font-weight: bold; font-size: 20px; color: var(--warning-color);">
                 </div>
-                <p style="font-size: 14px; margin-bottom: 10px;">আপনার রেফারেল লিঙ্ক শেয়ার করুন এবং প্রতিটি বন্ধুর জন্য ৫ টাকা বোনাস পান!</p>
                 <div class="referral-link-container">
-                    <input type="text" id="referral-link" readonly>
+                    <input type="text" id="referral-link" value="https://taka-income.ao/ref?code=ROSUL" readonly>
                     <button id="copy-referral" onclick="copyReferralLink()">কপি</button>
                 </div>
             </div>
-            
-            <div class="rate-info">
-                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ২ টাকা</p>
-                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ২০ টাকা</p>
-                <p><i class="fas fa-gift"></i> রেফারেল বোনাস: ৫ টাকা প্রতি ব্যবহারকারী</p>
-            </div>
         </div>
-        
-        <!-- আর্ন পেজ -->
-        <div class="page-section" id="earn-page">
-            <h3 class="section-title"><i class="fas fa-coins"></i> টাকা আয় করার উপায়</h3>
-            
-            <div class="action-buttons">
-                <button class="btn btn-primary" id="watch-ad-btn-earn" onclick="watchAd()">
-                    <i class="fas fa-play"></i> বিজ্ঞাপন দেখুন (২ টাকা)
-                </button>
-                <button class="btn btn-success" id="auto-ad-btn-earn" onclick="startAutoAds()">
-                    <i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন
-                </button>
-                <button class="btn btn-danger" id="stop-auto-btn-earn" onclick="stopAutoAds()" disabled>
-                    <i class="fas fa-stop"></i> বন্ধ করুন
-                </button>
-            </div>
-            
-            <div class="referral-section">
-                <h3 class="section-title"><i class="fas fa-users"></i> বন্ধুকে আমন্ত্রণ করুন</h3>
-                <div class="referral-stats">
-                    <div>আমন্ত্রিত: <strong id="referral-count-earn">0</strong></div>
-                    <div>আয়: <strong id="referral-earnings-earn">0.00</strong> টাকা</div>
-                </div>
-                <p style="font-size: 14px; margin-bottom: 10px;">আপনার রেফারেল লিঙ্ক শেয়ার করুন এবং প্রতিটি বন্ধুর জন্য ৫ টাকা বোনাস পান!</p>
-                <div class="referral-link-container">
-                    <input type="text" id="referral-link-earn" readonly>
-                    <button id="copy-referral-earn" onclick="copyReferralLink()">কপি</button>
-                </div>
-            </div>
-            
-            <div class="rate-info">
-                <p><i class="fas fa-ad"></i> প্রতি বিজ্ঞাপন = ২ টাকা</p>
-                <p><i class="fas fa-gift"></i> রেফারেল বোনাস: ৫ টাকা প্রতি ব্যবহারকারী</p>
-            </div>
-        </div>
-        
-        <!-- উত্তোলন পেজ -->
-        <div class="page-section" id="withdraw-page">
-            <h3 class="section-title"><i class="fas fa-wallet"></i> টাকা উত্তোলন</h3>
-            
-            <div class="stat-card">
-                <h3>মোট আয়</h3>
-                <p id="total-earned-withdraw">0.00 <small>টাকা</small></p>
-            </div>
-            
-            <div class="withdraw-section" id="withdraw-section">
+
+        <!-- ৩. উইথড্র পেজ -->
+        <div class="page-section" id="tab-3-withdraw">
+            <div class="withdraw-section">
+                <h3 class="section-title"><i class="fas fa-wallet"></i> টাকা উত্তোলন</h3>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">সর্বনিম্ন উত্তোলন পরিমাণ: <strong>২০ টাকা</strong></p>
+
                 <div class="form-group">
-                    <label for="withdraw-amount">পরিমাণ (টাকা)</label>
-                    <input type="number" id="withdraw-amount" class="form-control" placeholder="টাকার পরিমাণ লিখুন" min="20">
+                    <label>পেমেন্ট মেথড বেছে নিন:</label>
+                    <div class="payment-options">
+                        <div class="payment-box active" onclick="selectPayment('bkash', this)">
+                            <img src="https://www.logo.wine/a/logo/BKash/BKash-bKash-Logo.wine.svg" alt="bKash">
+                            <div style="font-size: 12px; font-weight: bold;">বিকাশ</div>
+                        </div>
+                        <div class="payment-box" onclick="selectPayment('nagad', this)">
+                            <img src="https://www.logo.wine/a/logo/Nagad/Nagad-Logo.wine.svg" alt="Nagad">
+                            <div style="font-size: 12px; font-weight: bold;">নগদ</div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="payment-method">পেমেন্ট মাধ্যম</label>
-                    <select id="payment-method" class="form-control">
-                        <option value="" disabled selected>পেমেন্ট মাধ্যম নির্বাচন করুন</option>
-                        <option value="bkash">bKash</option>
-                        <option value="nagad">Nagad</option>
-                        <option value="rocket">Rocket</option>
-                    </select>
+                    <label>মোবাইল নম্বর:</label>
+                    <input type="text" id="withdraw-account" class="form-control" placeholder="017xxxxxxxx">
                 </div>
+
                 <div class="form-group">
-                    <label for="withdraw-phone">মোবাইল নম্বর</label>
-                    <input type="text" id="withdraw-phone" class="form-control" placeholder="01XXXXXXXXX" pattern="01[3-9]{1}[0-9]{8}">
+                    <label>টাকার পরিমাণ:</label>
+                    <input type="number" id="withdraw-amount-input" class="form-control" value="20" min="20">
                 </div>
-                <button class="btn btn-primary" onclick="withdrawPoints()">
-                    <i class="fas fa-paper-plane"></i> অনুরোধ পাঠান
+
+                <button class="btn btn-success" onclick="submitWithdraw()">
+                    <i class="fas fa-paper-plane"></i> উইথড্র রিকোয়েস্ট দিন
                 </button>
-                <div id="withdraw-status"></div>
-            </div>
-            
-            <div class="rate-info">
-                <p><i class="fas fa-money-bill-wave"></i> ন্যূনতম উত্তোলন: ২০ টাকা</p>
-                <p><i class="fas fa-clock"></i> উত্তোলন প্রসেসিং সময়: ২৪-৪৮ ঘন্টা</p>
+
+                <!-- পেন্ডিং হিস্ট্রি ঘর -->
+                <div id="pending-box-container" style="display: none;">
+                    <div class="pending-history-card">
+                        <span class="pending-status-badge">পেন্ডিং (PENDING)</span>
+                        <h4 style="font-size: 14px; color: var(--warning-color);"><i class="fas fa-spinner fa-spin"></i> উইথড্র প্রসেসিং এ আছে</h4>
+                        <div style="font-size: 12px; margin-top: 8px; color: var(--text-muted);">
+                            <p>পেমেন্ট মেথড: <strong id="p-method" style="color: white;">-</strong></p>
+                            <p>নম্বর: <strong id="p-number" style="color: white;">-</strong></p>
+                            <p>পরিমাণ: <strong id="p-amount" style="color: white;">-</strong> টাকা</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        
-        <!-- নোটিশ পেজ -->
-        <div class="page-section" id="notice-page">
-            <h3 class="section-title"><i class="fas fa-bell"></i> নোটিশ ও আপডেট</h3>
-            
-            <div class="notification-list">
-                <div class="stat-card">
-                    <h3><i class="fas fa-info-circle"></i> নতুন আপডেট</h3>
-                    <p>স্বয়ংক্রিয় বিজ্ঞাপন সিস্টেম চালু হয়েছে। এখন থেকে স্বয়ংক্রিয়ভাবে বিজ্ঞাপন দেখে টাকা আয় করতে পারবেন।</p>
-                    <small>২ দিন আগে</small>
-                </div>
-                
-                <div class="stat-card">
-                    <h3><i class="fas fa-gift"></i> বিশেষ অফার</h3>
-                    <p>এই সপ্তাহে অতিরিক্ত ১০% বোনাস পেতে আপনার বন্ধুদের আমন্ত্রণ করুন।</p>
-                    <small>৫ দিন আগে</small>
-                </div>
-                
-                <div class="stat-card">
-                    <h3><i class="fas fa-exclamation-triangle"></i> গুরুত্বপূর্ণ নোটিশ</h3>
-                    <p>উত্তোলনের জন্য ন্যূনতম ২০ টাকা প্রয়োজন। দয়া করে উত্তোলন করার আগে নিশ্চিত হয়ে নিন।</p>
-                    <small>১ সপ্তাহ আগে</small>
+
+        <!-- ৪. নোটিফিকেশন পেজ -->
+        <div class="page-section" id="tab-4-notif">
+            <div class="withdraw-section">
+                <h3 class="section-title"><i class="fas fa-bell"></i> নোটিফিকেশন</h3>
+                <div style="background: rgba(40, 167, 69, 0.15); border-left: 4px solid var(--success-color); padding: 12px; border-radius: 5px;">
+                    <strong style="color: var(--success-color);">🎉 ৪ টাকা বোনাস পেয়েছেন!</strong>
+                    <p style="font-size: 13px; margin-top: 4px;">নতুন অ্যাকাউন্ট খোলার জন্য ৪ টাকা বোনাস যোগ করা হয়েছে।</p>
                 </div>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>© ২০২৩ টাকা আয় করুন অ্যাপ। সকল অধিকার সংরক্ষিত।</p>
-        </div>
+
     </div>
 
     <!-- নেভিগেশন বার -->
     <div class="bottom-nav">
-        <a href="#" class="nav-item active" onclick="showPage('home-page', this)">
-            <i class="fas fa-home"></i>
-            <span>হোম</span>
-        </a>
-        <a href="#" class="nav-item" onclick="showPage('earn-page', this)">
-            <i class="fas fa-coins"></i>
-            <span>আর্ন</span>
-        </a>
-        <a href="#" class="nav-item" onclick="showPage('withdraw-page', this)">
-            <i class="fas fa-wallet"></i>
-            <span>উত্তোলন</span>
-        </a>
-        <a href="#" class="nav-item" onclick="showPage('notice-page', this)">
-            <i class="fas fa-bell"></i>
-            <span>নোটিশ</span>
-        </a>
-    </div>
-
-    <div id="notification" class="notification">
-        <i class="fas fa-check-circle"></i>
-        <span id="notification-text"></span>
-    </div>
-
-    <script>
-        // Constants
-        const POINTS_PER_AD = 2.00; // প্রতি বিজ্ঞাপনে ২ টাকা
-        const MIN_WITHDRAW_TAKA = 20; // ন্যূনতম উত্তোলন ২০ টাকা
-        const REFERRAL_BONUS = 5.00; // রেফারেল বোনাস ৫ টাকা
-        
-        // Telegram Bot Configuration - এখানে আপনার বটের তথ্য দিন
-        const BOT_TOKEN = "7987524748:AAHmv52bPWjGpWLzvexVBGZ6P5vACjInNzE"; // আপনার বট টোকেন
-        const ADMIN_CHAT_ID = "7011834885"; // আপনার টেলিগ্রাম চ্যাট আইডি
-        
-        // Variables
-        let watchedAdsCount = 0;
-        let earnedPoints = 0.00;
-        let referralCount = 0;
-        let referralEarnings = 0.00;
-        let userId = generateUserId();
-        let autoAdInterval;
-        let isAutoMode = false;
-        let isAdLoading = false;
-
-        // Initialize the app
-        function initApp() {
-            // Check for referral in URL
-            checkReferral();
-            
-            // Set user info
-            document.getElementById('user-id').textContent = userId;
-            document.getElementById('user-avatar').textContent = userId.charAt(0).toUpperCase();
-            
-            // Load user data
-            loadUserData();
-            updateUI();
-            checkAdReady();
-            
-            // Generate referral link
-            generateReferralLink();
-        }
-
-        // পেজ দেখানোর ফাংশন
-        function showPage(pageId, element) {
-            // সব পেজ লুকান
-            document.querySelectorAll('.page-section').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // নির্বাচিত পেজ দেখান
-            document.getElementById(pageId).classList.add('active');
-            
-            // সব নেভিগেশন আইটেম থেকে active ক্লাস সরান
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // নির্বাচিত নেভিগেশন আইটেমে active ক্লাস যোগ করুন
-            element.classList.add('active');
-            
-            // উত্তোলন পেজে গেলে মোট আয় আপডেট করুন
-            if (pageId === 'withdraw-page') {
-                document.getElementById('total-earned-withdraw').textContent = (earnedPoints + referralEarnings).toFixed(2);
-            }
-            
-            // আর্ন পেজে গেলে ডেটা আপডেট করুন
-            if (pageId === 'earn-page') {
-                document.getElementById('referral-count-earn').textContent = referralCount;
-                document.getElementById('referral-earnings-earn').textContent = referralEarnings.toFixed(2);
-                document.getElementById('referral-link-earn').value = document.getElementById('referral-link').value;
-            }
-        }
-
-        // Generate a random user ID if not exists
-        function generateUserId() {
-            if (localStorage.getItem('userId')) {
-                return localStorage.getItem('userId');
-            }
-            
-            const newId = Math.floor(100000 + Math.random() * 900000);
-            localStorage.setItem('userId', newId.toString());
-            return newId.toString();
-        }
-
-        // Check if there's a referral in URL
-        function checkReferral() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const referrerId = urlParams.get('ref');
-            
-            if (referrerId && referrerId !== userId) {
-                // Check if this is first visit and not already referred
-                if (!localStorage.getItem('referredBy')) {
-                    localStorage.setItem('referredBy', referrerId);
-                    showNotification('আপনি একটি রেফারেল লিঙ্ক ব্যবহার করে যোগদান করেছেন! রেফারার ৫ টাকা বোনাস পাবেন।', 'success');
-                    
-                    // In a real app, you would send this to your backend
-                    setTimeout(() => {
-                        console.log(`User ${referrerId} should get referral bonus`);
-                    }, 1000);
-                }
-            }
-        }
-
-        // Generate referral link
-        function generateReferralLink() {
-            const currentUrl = window.location.href.split('?')[0];
-            const referralLink = `${currentUrl}?ref=${userId}`;
-            document.getElementById('referral-link').value = referralLink;
-        }
-
-        // Copy referral link to clipboard
-        function copyReferralLink() {
-            const referralLink = document.getElementById('referral-link');
-            referralLink.select();
-            document.execCommand('copy');
-            
-            // Show copied message
-            const copyBtn = document.getElementById('copy-referral');
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = 'কপি হয়েছে!';
-            copyBtn.style.background = 'var(--success-color)';
-            
-            showNotification('রেফারেল লিঙ্ক কপি করা হয়েছে!', 'success');
-            
-            setTimeout(() => {
-                copyBtn.textContent = originalText;
-                copyBtn.style.background = 'linear-gradient(to right, var(--primary-color), var(--secondary-color))';
-            }, 2000);
-        }
-
-        // Check if Monetag ad is ready
-        function checkAdReady() {
-            if (typeof window.show_9472189 !== 'function') {
-                document.getElementById('ad-status').innerHTML = '<i class="fas fa-spinner fa-spin"></i> বিজ্ঞাপন সিস্টেম লোড হচ্ছে...';
-                setTimeout(checkAdReady, 1000);
-            } else {
-                document.getElementById('ad-status').innerHTML = '<i class="fas fa-check-circle"></i> বিজ্ঞাপন দেখতে প্রস্তুত';
-            }
-        }
-
-        // Load user data from localStorage
-        function loadUserData() {
-            if (localStorage.getItem('watchedAdsCount')) {
-                watchedAdsCount = parseInt(localStorage.getItem('watchedAdsCount'));
-            }
-            
-            if (localStorage.getItem('earnedPoints')) {
-                earnedPoints = parseFloat(localStorage.getItem('earnedPoints'));
-            }
-            
-            if (localStorage.getItem('referralCount')) {
-                referralCount = parseInt(localStorage.getItem('referralCount'));
-            }
-            
-            if (localStorage.getItem('referralEarnings')) {
-                referralEarnings = parseFloat(localStorage.getItem('referralEarnings'));
-            }
-        }
-
-        // Save user data to localStorage
-        function saveUserData() {
-            localStorage.setItem('watchedAdsCount', watchedAdsCount);
-            localStorage.setItem('earnedPoints', earnedPoints.toFixed(2));
-            localStorage.setItem('referralCount', referralCount);
-            localStorage.setItem('referralEarnings', referralEarnings.toFixed(2));
-        }
-
-        // Update all UI elements
-        function updateUI() {
-            document.getElementById('watched-ads').textContent = watchedAdsCount;
-            document.getElementById('earned-money').textContent = (earnedPoints + referralEarnings).toFixed(2);
-            document.getElementById('referral-count').textContent = referralCount;
-            document.getElementById('referral-earnings').textContent = referralEarnings.toFixed(2);
-            updateProgress();
-        }
-
-        // Update progress bar and text
-        function updateProgress() {
-            const progressPercent = (earnedPoints / MIN_WITHDRAW_TAKA) * 100;
-            
-            document.getElementById('progress-fill').style.width = `${Math.min(progressPercent, 100)}%`;
-            document.getElementById('ads-progress').textContent = `${earnedPoints.toFixed(2)}/${MIN_WITHDRAW_TAKA} টাকা`;
-        }
-
-        // Function to watch an ad and earn points
-        function watchAd() {
-            if (isAdLoading) return;
-            
-            if (typeof window.show_11365410 !== 'function') {
-                document.getElementById('ad-status').innerHTML = '<i class="fas fa-exclamation-circle"></i> বিজ্ঞাপন সিস্টেম প্রস্তুত নয়। দয়া করে অপেক্ষা করুন...';
-                return;
-            }
-
-            isAdLoading = true;
-            document.getElementById('watch-ad-btn').disabled = true;
-            document.getElementById('watch-ad-btn-earn').disabled = true;
-            document.getElementById('ad-status').innerHTML = '<i class="fas fa-spinner fa-spin"></i> বিজ্ঞাপন লোড হচ্ছে...';
-            
-            try {
-                // Show the ad
-                window.show_11365410().then(() => {
-                    // Ad watched successfully
-                    watchedAdsCount++;
-                    earnedPoints += POINTS_PER_AD;
-                    
-                    saveUserData();
-                    updateUI();
-                    document.getElementById('ad-status').innerHTML = '<i class="fas fa-check-circle"></i> বিজ্ঞাপন সফলভাবে দেখা হয়েছে!';
-                    
-                    // Show coin animation
-                    createCoinAnimation();
-                    
-                    // Show success notification
-                    showNotification(`২ টাকা যোগ হয়েছে! আপনার ব্যালেন্স: ${(earnedPoints + referralEarnings).toFixed(2)} টাকা`, 'success');
-                    
-                    // Check if earned enough for withdrawal
-                    if (earnedPoints + referralEarnings >= MIN_WITHDRAW_TAKA) {
-                        showNotification(`অভিনন্দন! আপনি উত্তোলনের জন্য ${MIN_WITHDRAW_TAKA} টাকা সংগ্রহ করেছেন।`, 'info');
-                    }
-                    
-                    // If in auto mode, continue after delay
-                    if (isAutoMode) {
-                        setTimeout(() => {
-                            isAdLoading = false;
-                            document.getElementById('watch-ad-btn').disabled = false;
-                            document.getElementById('watch-ad-btn-earn').disabled = false;
-                            watchAd();
-                        }, 10000); // 10 seconds delay between auto ads
-                    } else {
-                        isAdLoading = false;
-                        document.getElementById('watch-ad-btn').disabled = false;
-                        document.getElementById('watch-ad-btn-earn').disabled = false;
-                    }
-                }).catch(error => {
-                    console.error('Error showing ad:', error);
-                    document.getElementById('ad-status').innerHTML = '<i class="fas fa-times-circle"></i> বিজ্ঞাপন দেখানো যায়নি। আবার চেষ্টা করুন।';
-                    isAdLoading = false;
-                    document.getElementById('watch-ad-btn').disabled = false;
-                    document.getElementById('watch-ad-btn-earn').disabled = false;
-                    
-                    if (isAutoMode) {
-                        setTimeout(watchAd, 10000); // Retry after 10 seconds
-                    }
-                });
-            } catch (error) {
-                console.error('Error in ad system:', error);
-                document.getElementById('ad-status').innerHTML = '<i class="fas fa-exclamation-triangle"></i> বিজ্ঞাপন সিস্টেমে ত্রুটি। পৃষ্ঠাটি রিফ্রেশ করুন।';
-                isAdLoading = false;
-                document.getElementById('watch-ad-btn').disabled = false;
-                document.getElementById('watch-ad-btn-earn').disabled = false;
-            }
-        }
-
-        // Create coin animation
-        function createCoinAnimation() {
-            const button = document.getElementById('watch-ad-btn');
-            const rect = button.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-            
-            const coin = document.createElement('div');
-            coin.className = 'coin-animation';
-            coin.innerHTML = '<i class="fas fa-coins"></i>';
-            coin.style.left = `${x}px`;
-            coin.style.top = `${y}px`;
-            document.body.appendChild(coin);
-            
-            setTimeout(() => {
-                document.body.removeChild(coin);
-            }, 1000);
-        }
-
-        // Start auto ads mode
-        function startAutoAds() {
-            isAutoMode = true;
-            document.getElementById('auto-ad-btn').disabled = true;
-            document.getElementById('auto-ad-btn-earn').disabled = true;
-            document.getElementById('stop-auto-btn').disabled = false;
-            document.getElementById('stop-auto-btn-earn').disabled = false;
-            document.getElementById('watch-ad-btn').disabled = true;
-            document.getElementById('watch-ad-btn-earn').disabled = true;
-            document.getElementById('ad-status').innerHTML = '<i class="fas fa-robot"></i> স্বয়ংক্রিয় বিজ্ঞাপন মোড চালু';
-            
-            watchAd(); // Start the first ad
-        }
-
-        // Stop auto ads mode
-        function stopAutoAds() {
-            isAutoMode = false;
-            document.getElementById('auto-ad-btn').disabled = false;
-            document.getElementById('auto-ad-btn-earn').disabled = false;
-            document.getElementById('stop-auto-btn').disabled = true;
-            document.getElementById('stop-auto-btn-earn').disabled = true;
-            document.getElementById('watch-ad-btn').disabled = false;
-            document.getElementById('watch-ad-btn-earn').disabled = false;
-            document.getElementById('ad-status').innerHTML = '<i class="fas fa-check-circle"></i> স্বয়ংক্রিয় বিজ্ঞাপন মোড বন্ধ';
-        }
-
-        // Show withdraw form
-        function showWithdrawForm() {
-            // উত্তোলন পেজ দেখান
-            showPage('withdraw-page', document.querySelector('.nav-item:nth-child(3)'));
-            
-            const totalEarnings = earnedPoints + referralEarnings;
-            
-            if (totalEarnings < MIN_WITHDRAW_TAKA) {
-                document.getElementById('withdraw-status').textContent = 
-                    `ন্যূনতম উত্তোলন পরিমাণ ${MIN_WITHDRAW_TAKA} টাকা। আপনার আছে ${totalEarnings.toFixed(2)} টাকা।`;
-                document.getElementById('withdraw-status').className = 'error-message';
-                document.getElementById('withdraw-section').style.display = 'block';
-                return;
-            }
-            
-            document.getElementById('withdraw-amount').value = '';
-            document.getElementById('withdraw-amount').placeholder = `সর্বোচ্চ: ${totalEarnings.toFixed(2)} টাকা`;
-            document.getElementById('withdraw-amount').max = totalEarnings.toFixed(2);
-            document.getElementById('withdraw-phone').value = '';
-            document.getElementById('payment-method').selectedIndex = 0;
-            document.getElementById('withdraw-status').textContent = '';
-            document.getElementById('withdraw-section').style.display = 'block';
-        }
-
-        // Handle withdrawal request
-        function withdrawPoints() {
-            const amount = parseFloat(document.getElementById('withdraw-amount').value);
-            const paymentMethod = document.getElementById('payment-method').value;
-            const phoneNumber = document.getElementById('withdraw-phone').value;
-            const totalEarnings = earnedPoints + referralEarnings;
-            const withdrawStatus = document.getElementById('withdraw-status');
-            
-            // Validate inputs
-            if (!amount || isNaN(amount)) {
-                withdrawStatus.textContent = 'দয়া করে একটি বৈধ পরিমাণ লিখুন।';
-                withdrawStatus.className = 'error-message';
-                return;
-            }
-            
-            if (amount < MIN_WITHDRAW_TAKA) {
-                withdrawStatus.textContent = `ন্যূনতম উত্তোলন পরিমাণ ${MIN_WITHDRAW_TAKA} টাকা।`;
-                withdrawStatus.className = 'error-message';
-                return;
-            }
-            
-            if (amount > totalEarnings) {
-                withdrawStatus.textContent = `পর্যাপ্ত ব্যালেন্স নেই। আপনার আছে ${totalEarnings.toFixed(2)} টাকা।`;
-                withdrawStatus.className = 'error-message';
-                return;
-            }
-            
-            if (!paymentMethod) {
-                withdrawStatus.textContent = 'দয়া করে একটি পেমেন্ট মাধ্যম নির্বাচন করুন।';
-                withdrawStatus.className = 'error-message';
-                return;
-            }
-            
-            if (!phoneNumber || !/^01[3-9][0-9]{8}$/.test(phoneNumber)) {
-                withdrawStatus.textContent = 'দয়া করে একটি বৈধ বাংলাদেশী মোবাইল নম্বর লিখুন।';
-                withdrawStatus.className = 'error-message';
-                return;
-            }
-            
-            // Calculate points to deduct
-            let remainingAmount = amount;
-            
-            if (referralEarnings > 0) {
-                const referralDeduction = Math.min(referralEarnings, remainingAmount);
-                referralEarnings -= referralDeduction;
-                remainingAmount -= referralDeduction;
-            }
-            
-            if (remainingAmount > 0) {
-                earnedPoints -= remainingAmount;
-                if (earnedPoints < 0) earnedPoints = 0;
-            }
-            
-            // Save and update UI
-            saveUserData();
-            updateUI();
-            
-            // Prepare withdrawal message
-            const message = `📌 নতুন উত্তোলন অনুরোধ 📌\n\n` +
-                             `👤 ব্যবহারকারী আইডি:https://t.me/ihakaincome01_bot?start=Rumat5=https
-                             \n` +
-                             `💰 পরিমাণ: ${amount} টাকা\n` +
-                             `📱 মাধ্যম: ${paymentMethod.toUpperCase()}\n` +
-                             `📞 ফোন: ${phoneNumber}\n\n` +
-                             `📊 দেখা বিজ্ঞাপন: ${watchedAdsCount}\n` +
-                             `👥 আমন্ত্রিত: ${referralCount}\n` +
-                             `💵 মোট আয়: ${totalEarnings.toFixed(2)} টাকা`;
-            
-            // Send to admin via Telegram
-            sendWithdrawRequestToAdmin(message);
-            
-            // Show success message
-            withdrawStatus.textContent = 'উত্তোলন অনুরোধ সফলভাবে জমা দেওয়া হয়েছে! প্রসেসিং করতে ২৪-৪৮ ঘন্টা সময় লাগতে পারে।';
-            withdrawStatus.className = 'success-message';
-            
-            // Show notification
-            showNotification('আপনার উত্তোলন অনুরোধ পাঠানো হয়েছে!', 'success');
-            
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                document.getElementById('withdraw-section').style.display = 'none';
-            }, 15000);
-        }
-
-        // Send withdrawal request to admin via Telegram bot
-        function sendWithdrawRequestToAdmin(message) {
-            // Telegram API URL তৈরি করুন
-            const apiUrl = `https://api.telegram.org/bot${8990206832:AAEgunqash1B9HIRct5Y85dRZf_LFm2f0Jk}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(message)}`;
-            
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.ok) {
-                        console.log('এখানে ২০ টাকা এবং ২০ টাকার বেশি থাকলেই উত্তোলন সফল হবে আচ্ছা বসায় দিছে ওইটা এখন ১১৩১ নাম্বার কি বসাবো);
-                    } else {
-                        console.error('উত্তোলন অনুরোধ পাঠানো যায়নি:', data);
-                    }
-                })
-                .catch(error => console.error('মেসেজ পাঠাতে ত্রুটি:', error));
-        }
-
-        // Show notification
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notification-text');
-            
-            notificationText.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Initialize the app when page loads
-        window.onload = initApp;
-    </script>
-</body>
-</html>
+        <div class="nav-item active" onclick="switchTab('tab-1-ads', this)"><i class="fas fa-play-circle"></i><span>কাজ</span></div>
+        <div class="nav-item" onclick="switchTab('tab-2-refer', this)"><i class="fas fa-users"></i><span>রেফার</span></div>
+        <div class="nav-item" onclick="switchTab('tab-3-withdraw', this)"><i class="fas fa-wallet"></i><span>উইথড্র</span></div>
+        <div class="nav-item" onclick="switchTab('tab-4-notif', this)"><i class="fas fa-bell"></i><span>নোটিফি
