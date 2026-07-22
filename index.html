@@ -6,7 +6,7 @@
     <title>Rasool Earning - Telegram Mini App</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Monetag Ad SDK (Banner & Video/Interstitial) -->
+    <!-- Monetag Ad SDK -->
     <script src='//libtl.com/sdk.js' data-zone='11365410' data-sdk='show_11365410'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -36,18 +36,45 @@
             padding-bottom: 80px;
         }
 
-        .header {
+        /* Top Header with Telegram Profile Style */
+        .user-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: rgba(22, 33, 62, 0.8);
+            background: rgba(22, 33, 62, 0.9);
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            gap: 12px;
         }
 
-        .header h1 {
+        .telegram-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #9333ea);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 20px;
+            color: white;
+            font-weight: bold;
+            border: 2px solid var(--primary-color);
+            overflow: hidden;
+        }
+
+        .telegram-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info-text h2 {
+            font-size: 16px;
             font-weight: 600;
+        }
+
+        .user-info-text p {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
         .container {
@@ -122,7 +149,7 @@
             font-weight: 600;
         }
 
-        /* Task & Info Box */
+        /* Info Box */
         .info-box {
             background: var(--card-bg);
             border-radius: 14px;
@@ -134,6 +161,43 @@
         .info-box h3 {
             font-size: 16px;
             margin-bottom: 8px;
+        }
+
+        /* Referral Box Style */
+        .ref-box-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .ref-input {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #cbd5e1;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
         }
 
         .progress-bar-bg {
@@ -191,13 +255,13 @@
 
         /* History Items */
         .history-item {
-            background: var(--card-bg);
+            background: #0f172a;
             padding: 12px 15px;
             border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -208,25 +272,6 @@
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
-        }
-
-        .badge-success {
-            background: rgba(40, 167, 69, 0.15);
-            color: var(--success-color);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        /* Banner Ad Container */
-        .banner-ad-box {
-            background: #1e293b;
-            border: 1px dashed rgba(255,255,255,0.1);
-            text-align: center;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 15px;
         }
 
         /* Bottom Navigation */
@@ -306,29 +351,19 @@
 </head>
 <body>
 
-    <div class="header">
-        <h1 id="app-title">Rasool Earning</h1>
-        <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
+    <!-- Telegram User Profile Header -->
+    <div class="user-header">
+        <div class="telegram-avatar" id="user-avatar">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info-text">
+            <h2 id="user-name">স্বাগতম, মেম্বার 👋</h2>
+            <p id="user-handle">@Rasool_Earning</p>
+        </div>
     </div>
 
     <div class="container">
         
-        <!-- BANNER AD SECTION -->
-        <div class="banner-ad-box">
-            <span style="font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 5px;">Sponsored Banner Ad</span>
-            <div id="monetag-banner">
-                <!-- Monetag Banner Script Integration -->
-                <script>
-                    try {
-                        if(typeof show_11365410 === 'function') {
-                            // Banner container fallback or dynamic call if supported by network
-                        }
-                    } catch(e) {}
-                </script>
-                <p style="font-size: 12px; color: var(--primary-color);">ব্যানার অ্যাড একটিভ আছে</p>
-            </div>
-        </div>
-
         <!-- HOME PAGE -->
         <div id="page-home" class="page active">
             <div class="balance-card">
@@ -350,7 +385,7 @@
 
             <div class="info-box">
                 <h3><i class="fa-solid fa-list-check" style="color: var(--primary-color);"></i> আজকের কাজ</h3>
-                <p style="font-size: 13px; color: var(--text-muted);">টাস্ক কমপ্লিট করুন (প্রতি ভিডিও অ্যাড ২ টাকা)</p>
+                <p style="font-size: 13px; color: var(--text-muted);">টাস্ক কমপ্লিট করুন (প্রতি অ্যাড ১৫ সেকেন্ড = ২ টাকা)</p>
                 <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px;">
                     <span>অগ্রগতি</span>
                     <span id="task-count">0 / 15</span>
@@ -365,27 +400,31 @@
                 <p style="font-size: 12px; opacity: 0.9;">টাস্ক বাকি আছে</p>
             </div>
 
+            <!-- Referral Link Box with Copy Button -->
             <div class="info-box">
                 <h3>আপনার রেফার লিংক (রসূল)</h3>
-                <p style="font-size: 12px; color: var(--text-muted); word-break: break-all; margin-top: 5px;" id="ref-link">https://t.me/HaatKhorochBot?start=ref_Rasool_8661247328</p>
+                <div class="ref-box-container">
+                    <div class="ref-input" id="ref-link-text">https://t.me/HaatKhorochBot?start=ref_Rasool_8661247328</div>
+                    <button class="copy-btn" onclick="copyRefLink()">কপি</button>
+                </div>
             </div>
         </div>
 
-        <!-- TASKS PAGE (VIDEO AD SECTION) -->
+        <!-- TASKS PAGE -->
         <div id="page-tasks" class="page">
             <div class="info-box">
                 <h3>১৫ সেকেন্ডের ভিডিও টাস্ক</h3>
-                <p style="font-size: 13px; color: var(--primary-color);">প্রতিটি ভিডিও অ্যাড দেখার জন্য পাবেন ২.০০ Tk</p>
+                <p style="font-size: 13px; color: var(--primary-color);">প্রতিটি ১৫ সেকেন্ডের অ্যাড দেখার জন্য পাবেন ২.০০ Tk</p>
             </div>
 
             <div class="info-box" style="border: 1px solid rgba(220, 53, 69, 0.3); background: rgba(220, 53, 69, 0.05);">
                 <p style="font-size: 12px; color: #f87171; line-height: 1.5;">
-                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>সতর্কতা:</strong> ফুল স্ক্রিন ভিডিও অ্যাড অন্তত ১৫ সেকেন্ড দেখতে হবে। তা না করলে ব্যালেন্স যোগ হবে না এবং উইথড্র আটকে দেওয়া হবে!
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>সতর্কতা:</strong> ফুল স্ক্রিন অ্যাড অন্তত ১৫ সেকেন্ড দেখতে হবে। তা না করলে ব্যালেন্স যোগ হবে না!
                 </p>
             </div>
 
             <button class="btn-primary-custom" onclick="startVideoAdTask()">
-                <i class="fa-solid fa-video"></i> ১৫ সেকেন্ড ভিডিও অ্যাড দেখুন (২ ৳)
+                <i class="fa-solid fa-video"></i> ১৫ সেকেন্ড অ্যাড দেখুন (২ ৳)
             </button>
         </div>
 
@@ -416,7 +455,7 @@
                     <strong>উইথড্র দিলাম টাকা আসলো না...</strong>
                     <p style="font-size: 11px; color: var(--text-muted);">22 Jul 2026</p>
                 </div>
-                <span class="badge-success" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">ওপেন</span>
+                <span class="badge-pending">ওপেন</span>
             </div>
         </div>
 
@@ -451,16 +490,11 @@
                 <button class="btn-primary-custom" onclick="requestWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
             </div>
 
+            <!-- Withdraw History with Pending Box -->
             <div class="info-box">
-                <h3>হিস্টরি (শেষ ১০টি)</h3>
+                <h3>উইথড্র হিস্টরি (পেন্ডিং স্ট্যাটাস)</h3>
                 <div id="withdraw-history">
-                    <div class="history-item">
-                        <div>
-                            <strong>20.00 Tk</strong>
-                            <p style="font-size: 11px; color: var(--text-muted);">22 Jul 2026 • নগদ</p>
-                        </div>
-                        <span class="badge-success">সফল</span>
-                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 10px;">কোনো উইথড্র রিকোয়েস্ট নেই</p>
                 </div>
             </div>
         </div>
@@ -472,7 +506,7 @@
         <div class="modal-content">
             <i class="fa-solid fa-circle-check"></i>
             <h3>সফল!</h3>
-            <p>🎉 আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন (রসূল) খুব দ্রুত পেমেন্ট করে দেবেন।</p>
+            <p>🎉 আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন খুব দ্রুত পেমেন্ট করে দেবেন।</p>
             <button class="btn-primary-custom" onclick="closeModal()">OK</button>
         </div>
     </div>
@@ -497,9 +531,46 @@
     </div>
 
     <script>
+        // Telegram WebApp Safe Initialization & Page Navigation Fix
+        window.addEventListener('DOMContentLoaded', (event) => {
+            try {
+                if (window.Telegram && window.Telegram.WebApp) {
+                    const tg = window.Telegram.WebApp;
+                    tg.expand();
+                    const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
+                    if (user) {
+                        document.getElementById('user-name').innerText = user.first_name || "মেম্বার";
+                        document.getElementById('user-handle').innerText = user.username ? "@" + user.username : "ID: " + user.id;
+                        if (user.photo_url) {
+                            document.getElementById('user-avatar').innerHTML = `<img src="${user.photo_url}" alt="Profile">`;
+                        }
+                    }
+                }
+            } catch(e) {
+                console.log("Telegram context error ignored.");
+            }
+        });
+
+        // Copy Referral Link Function
+        function copyRefLink() {
+            let refText = document.getElementById('ref-link-text').innerText;
+            navigator.clipboard.writeText(refText).then(() => {
+                alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
+            }).catch(err => {
+                let tempInput = document.createElement("input");
+                tempInput.value = refText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert('রেফার লিংক সফলভাবে কপি হয়েছে!');
+            });
+        }
+
         let balance = 0.00;
         let completedTasks = 0;
         const maxTasks = 15;
+        let historyData = [];
 
         function switchPage(pageId, element) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -508,77 +579,17 @@
             if(element) {
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                 element.classList.add('active');
+            } else {
+                // Handle tab switching programmatically
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                if(pageId === 'home') document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+                if(pageId === 'tasks') document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+                if(pageId === 'top') document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+                if(pageId === 'support') document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+                if(pageId === 'withdraw') document.querySelector('.nav-item:nth-child(5)').classList.add('active');
             }
+            window.scrollTo(0, 0);
         }
 
         function updateMinLimit() {
-            let method = document.getElementById('pay-method').value;
-            let amountInput = document.getElementById('pay-amount');
-            if(method === 'nagad') {
-                amountInput.placeholder = 'কমপক্ষে ২০.০০';
-            } else {
-                amountInput.placeholder = 'কমপক্ষে ৩০.০০';
-            }
-        }
-
-        // Trigger Video / Interstitial Ad (15 Seconds Task)
-        function startVideoAdTask() {
-            if (typeof show_11365410 === 'function') {
-                show_11365410().then(() => {
-                    // Video ad completed successfully
-                    balance += 2.00;
-                    completedTasks += 1;
-                    updateUI();
-                    alert('অভিনন্দন! ভিডিও অ্যাড সফলভাবে দেখার জন্য আপনি ২ টাকা অর্জন করেছেন।');
-                }).catch(e => {
-                    console.log(e);
-                    alert('দয়া করে সম্পূর্ণ ১৫ সেকেন্ড ভিডিও অ্যাডটি দেখুন!');
-                });
-            } else {
-                // Fallback simulation if network is slow
-                balance += 2.00;
-                completedTasks += 1;
-                updateUI();
-                alert('অভিনন্দন! ভিডিও অ্যাড সফলভাবে দেখার জন্য আপনি ২ টাকা অর্জন করেছেন।');
-            }
-        }
-
-        function updateUI() {
-            document.getElementById('user-balance').innerText = balance.toFixed(2) + ' Tk';
-            document.getElementById('withdraw-balance').innerText = balance.toFixed(2) + ' Tk';
-            document.getElementById('task-count').innerText = completedTasks + ' / ' + maxTasks;
-            let progress = (completedTasks / maxTasks) * 100;
-            document.getElementById('task-progress').style.width = progress + '%';
-        }
-
-        function requestWithdraw() {
-            let amount = parseFloat(document.getElementById('pay-amount').value);
-            let number = document.getElementById('pay-number').value;
-            let method = document.getElementById('pay-method').value;
-
-            let minLimit = (method === 'nagad') ? 20 : 30;
-            let methodName = (method === 'nagad') ? 'নগদ' : 'বিকাশ';
-
-            if(isNaN(amount) || amount < minLimit) {
-                alert(`${methodName}-এ সর্বনিম্ন উইথড্র ${minLimit}.০০ টাকা হতে হবে!`);
-                return;
-            }
-            if(number.length < 3) {
-                alert('সঠিক অ্যাকাউন্ট নম্বর বা ইউজারনেম দিন!');
-                return;
-            }
-
-            if(balance < amount) {
-                alert('আপনার পর্যাপ্ত ব্যালেন্স নেই!');
-                return;
-            }
-
-            balance -= amount;
-            updateUI();
-
-            // Adds request to history with user's phone/username so admin can send money
-            let historyHtml = `
-                <div class="history-item">
-                    <div>
-                        <strong>${amount.toFixed(2)} Tk</strong>
-                        <p style="font-size: 11px; color: var(--t
+            let method = documen
