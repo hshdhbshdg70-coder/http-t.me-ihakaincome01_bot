@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>টাকা আয় করুন - Telegram Mini App</title>
+    <title>Rasool Earning - Telegram Mini App</title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Ad SDK -->
+    <!-- Monetag Ad SDK (Banner & Video/Interstitial) -->
     <script src='//libtl.com/sdk.js' data-zone='11365410' data-sdk='show_11365410'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
@@ -18,448 +18,567 @@
             --danger-color: #dc3545;
             --warning-color: #ffc107;
             --card-bg: #16213e;
+            --bg-color: #0f172a;
             --text-color: #ffffff;
-            --text-muted: #adb5bd;
-            --wood-border: #8b5a2b;
+            --text-muted: #94a3b8;
         }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            padding-bottom: 75px;
+            padding-bottom: 80px;
         }
-        
-        .container {
-            max-width: 500px;
-            width: 100%;
-            margin: 0 auto;
-            background: rgba(22, 33, 62, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            padding-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        
+
         .header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(22, 33, 62, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .container {
+            padding: 15px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #4f46e5, #3b82f6);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .balance-card p {
+            font-size: 14px;
+            color: #e2e8f0;
+        }
+
+        .balance-card h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 5px 0 10px 0;
+        }
+
+        .min-withdraw {
+            font-size: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 14px;
             color: white;
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.1);
-        }
-        .header h1 { font-size: 20px; font-weight: 700; }
-
-        /* কাঠের ড্যাশবোর্ড বক্স */
-        .wood-card {
-            background: linear-gradient(145deg, #3a2213, #23140b);
-            border: 3px solid var(--wood-border);
-            border-radius: 12px;
-            margin: 15px;
-            padding: 15px;
-            box-shadow: inset 0 0 10px #000000, 0 5px 15px rgba(0, 0, 0, 0.4);
-        }
-        .user-info { display: flex; align-items: center; border-bottom: 1px dashed var(--wood-border); padding-bottom: 10px; margin-bottom: 10px; }
-        .user-avatar { width: 45px; height: 45px; background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; color: white; margin-right: 12px; border: 2px solid var(--wood-border); }
-        .user-details h3 { font-size: 15px; color: #f3d4a0; }
-        .user-details p { font-size: 12px; color: var(--text-muted); }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; text-align: center; }
-        .stat-box { background: rgba(0, 0, 0, 0.3); padding: 8px; border-radius: 8px; border: 1px solid rgba(139, 90, 43, 0.4); }
-        .stat-box h4 { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
-        .stat-box p { font-size: 16px; font-weight: bold; color: #ffca28; }
-
-        /* Task & Payment Cards */
-        .task-card {
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px 15px;
-            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-        }
-        .task-info h4 { font-size: 14px; margin-bottom: 3px; }
-        .task-info p { font-size: 12px; color: var(--text-muted); }
-
-        .payment-options { display: flex; gap: 15px; margin-bottom: 15px; }
-        .pay-card {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
+            gap: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            text-align: left;
+            transition: 0.2s;
         }
-        .pay-card.selected { border-color: var(--primary-color); background: rgba(74, 107, 255, 0.15); }
-        .pay-card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; border-radius: 8px; }
 
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: var(--card-bg);
-            display: flex; justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .action-btn i {
+            font-size: 22px;
+            color: var(--primary-color);
         }
-        .nav-item { display: flex; flex-direction: column; align-items: center; text-align: center; color: var(--text-muted); text-decoration: none; font-size: 11px; cursor: pointer; width: 25%; }
-        .nav-item.active { color: var(--primary-color); }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
 
-        .page-section { display: none; }
-        .page-section.active { display: block; }
-
-        .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
+        .action-btn span {
+            font-size: 14px;
             font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+        }
+
+        /* Task & Info Box */
+        .info-box {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-box h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            background: #0f172a;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--primary-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s;
+        }
+
+        /* Custom Button */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            margin-top: 10px;
         }
-        .btn-primary { background: linear-gradient(to right, var(--primary-color), #6a11cb); }
-        .btn-success { background: linear-gradient(to right, var(--success-color), #11998e); width: 100%; justify-content: center; padding: 14px; font-size: 15px; }
-        .btn:active { transform: scale(0.98); }
 
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: var(--text-muted); }
+        /* Inputs & Selects */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
         .form-control {
-            width: 100%; padding: 12px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px; color: white; outline: none;
+            width: 100%;
+            padding: 12px 15px;
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
         }
 
-        .ad-container {
-            margin: 15px; display: flex; justify-content: center; align-items: center;
-            min-height: 60px; background-color: rgba(0, 0, 0, 0.2); border-radius: 10px; overflow: hidden;
+        /* History Items */
+        .history-item {
+            background: var(--card-bg);
+            padding: 12px 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .status-box { background: var(--card-bg); margin: 15px; padding: 15px; border-radius: 10px; font-size: 13px; }
-        .pending-card {
-            background: rgba(0, 0, 0, 0.4);
-            border-left: 4px solid var(--warning-color);
-            padding: 10px;
+        .badge-pending {
+            background: rgba(255, 193, 7, 0.15);
+            color: var(--warning-color);
+            padding: 4px 10px;
             border-radius: 6px;
-            margin-top: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(40, 167, 69, 0.15);
+            color: var(--success-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Banner Ad Container */
+        .banner-ad-box {
+            background: #1e293b;
+            border: 1px dashed rgba(255,255,255,0.1);
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Bottom Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #111827;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* Popup Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            width: 85%;
+            max-width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .modal-content i {
+            font-size: 45px;
+            color: var(--success-color);
+            margin-bottom: 15px;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .modal-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
 
+    <div class="header">
+        <h1 id="app-title">Rasool Earning</h1>
+        <i class="fa-solid fa-ellipsis-vertical" style="color: var(--text-muted);"></i>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <h1>টাকা আয় করুন - Telegram App</h1>
-        </div>
-
-        <!-- ড্যাশবোর্ড -->
-        <div class="wood-card">
-            <div class="user-info">
-                <div class="user-avatar" id="user-avatar">U</div>
-                <div class="user-details">
-                    <h3 id="user-name">Telegram User</h3>
-                    <p>ID: <span id="user-id">000000</span></p>
-                </div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <h4>একউন্ট ব্যালেন্স</h4>
-                    <p><span id="earned-money">0.00</span> ৳</p>
-                </div>
-                <div class="stat-box">
-                    <h4>সম্পন্ন কাজ</h4>
-                    <p id="watched-ads">0</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- প্রথম অ্যাড ব্যানার -->
-        <div class="ad-container">
-            <center>
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'af3ac5da264d48edf05886e0c3d572c2',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
+        
+        <!-- BANNER AD SECTION -->
+        <div class="banner-ad-box">
+            <span style="font-size: 10px; color: var(--text-muted); display: block; margin-bottom: 5px;">Sponsored Banner Ad</span>
+            <div id="monetag-banner">
+                <!-- Monetag Banner Script Integration -->
+                <script>
+                    try {
+                        if(typeof show_11365410 === 'function') {
+                            // Banner container fallback or dynamic call if supported by network
+                        }
+                    } catch(e) {}
                 </script>
-                <script type="text/javascript" src="https://www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
-            </center>
-        </div>
-
-        <!-- ১. হোম পেজ (কাজ ও অ্যাড দেখার অপশন) -->
-        <div class="page-section active" id="home-page">
-            <div style="margin: 15px;">
-                <h3 style="font-size: 16px; margin-bottom: 12px; color: #ffca28;"><i class="fas fa-tasks"></i> প্রতিদিনের আয় করুন</h3>
-                
-                <!-- অ্যাড দেখার টাস্ক (২ টাকা) -->
-                <div class="task-card">
-                    <div class="task-info">
-                        <h4>বিজ্ঞাপন দেখুন</h4>
-                        <p>প্রতি এডে আয় ২.০০ টাকা</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="doTask('Ad', 2.00)">শুরু করুন</button>
-                </div>
-
-                <!-- ইউটিউব টাস্ক (৩ টাকা) -->
-                <div class="task-card">
-                    <div class="task-info">
-                        <h4>ইউটিউব ভিডিও দেখুন</h4>
-                        <p>সাবস্ক্রাইব ও ওয়াচ - ৩.০০ টাকা</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="doTask('YouTube', 3.00, 'https://youtube.com')">কাজ করুন</button>
-                </div>
-
-                <!-- ফেসবুক টাস্ক (২ টাকা) -->
-                <div class="task-card">
-                    <div class="task-info">
-                        <h4>ফেসবুক পেজ লাইক</h4>
-                        <p>সোশ্যাল টাস্ক - ২.০০ টাকা</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="doTask('Facebook', 2.00, 'https://facebook.com')">কাজ করুন</button>
-                </div>
-
-                <!-- টিকটক টাস্ক (৩ টাকা) -->
-                <div class="task-card">
-                    <div class="task-info">
-                        <h4>টিকটক ফলো</h4>
-                        <p>ভিডিও লাইক ও ফলো - ৩.০০ টাকা</p>
-                    </div>
-                    <button class="btn btn-primary" onclick="doTask('TikTok', 3.00, 'https://tiktok.com')">কাজ করুন</button>
-                </div>
+                <p style="font-size: 12px; color: var(--primary-color);">ব্যানার অ্যাড একটিভ আছে</p>
             </div>
         </div>
 
-        <!-- ২. উইথড্র পেজ -->
-        <div class="page-section" id="withdraw-page">
-            <div style="margin: 15px;">
-                <h3 style="font-size: 15px; margin-bottom: 10px;">পেমেন্ট মেথড সিলেক্ট করুন:</h3>
-                
-                <div class="payment-options">
-                    <div class="pay-card selected" id="bkash-opt" onclick="setPayment('bKash')">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3o1C4R_-m6HhE0jT6I62qL1HjS1G8O3rJvA&s" alt="bKash">
-                        <p style="font-size: 12px; font-weight: bold;">বিকাশ</p>
-                    </div>
-                    <div class="pay-card" id="nagad-opt" onclick="setPayment('Nagad')">
-                        <img src="https://download.logo.wine/logo/Nagad/Nagad-Logo.wine.png" alt="Nagad">
-                        <p style="font-size: 12px; font-weight: bold;">নগদ</p>
-                    </div>
-                </div>
+        <!-- HOME PAGE -->
+        <div id="page-home" class="page active">
+            <div class="balance-card">
+                <p>আপনার বর্তমান ব্যালেন্স</p>
+                <h2 id="user-balance">0.00 Tk</h2>
+                <div class="min-withdraw"><i class="fa-solid fa-circle-info"></i> নগদ: ২০৳ | বিকাশ: ৩০৳</div>
+            </div>
 
-                <div class="form-group">
-                    <label>একাউন্ট নাম্বার:</label>
-                    <input type="number" id="withdraw-acc" class="form-control" placeholder="017xxxxxxxx">
-                </div>
-
-                <div class="form-group">
-                    <label>অ্যামাউন্ট (টাকা):</label>
-                    <input type="number" id="withdraw-amt" class="form-control" placeholder="সর্বনিম্ন ২০ টাকা">
-                </div>
-
-                <button class="btn btn-success" id="withdraw-btn" onclick="processWithdraw()">
-                    উইথড্র করুন
+            <div class="action-grid">
+                <button class="action-btn" onclick="switchPage('tasks')">
+                    <i class="fa-solid fa-play-circle" style="color: #10b981;"></i>
+                    <span>কাজ শুরু করুন</span>
+                </button>
+                <button class="action-btn" onclick="switchPage('withdraw')">
+                    <i class="fa-solid fa-wallet" style="color: #ec4899;"></i>
+                    <span>টাকা তুলুন</span>
                 </button>
             </div>
 
-            <!-- উইথড্র পেন্ডিং বক্স -->
-            <div class="status-box">
-                <h3 style="font-size: 14px; margin-bottom: 8px;">উইথড্র পেন্ডিং হিস্ট্রি:</h3>
-                <div id="pending-container">
-                    <p style="color: var(--text-muted); font-size: 12px;">কোনো পেন্ডিং উইথড্র নেই</p>
+            <div class="info-box">
+                <h3><i class="fa-solid fa-list-check" style="color: var(--primary-color);"></i> আজকের কাজ</h3>
+                <p style="font-size: 13px; color: var(--text-muted);">টাস্ক কমপ্লিট করুন (প্রতি ভিডিও অ্যাড ২ টাকা)</p>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 13px;">
+                    <span>অগ্রগতি</span>
+                    <span id="task-count">0 / 15</span>
                 </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="task-progress" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="info-box" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
+                <h3><i class="fa-solid fa-gift"></i> মিস্ট্রি বক্স</h3>
+                <p style="font-size: 12px; opacity: 0.9;">টাস্ক বাকি আছে</p>
+            </div>
+
+            <div class="info-box">
+                <h3>আপনার রেফার লিংক (রসূল)</h3>
+                <p style="font-size: 12px; color: var(--text-muted); word-break: break-all; margin-top: 5px;" id="ref-link">https://t.me/HaatKhorochBot?start=ref_Rasool_8661247328</p>
             </div>
         </div>
 
-        <!-- ৩. রেফার পেজ -->
-        <div class="page-section" id="refer-page">
-            <div class="status-box">
-                <h3 style="margin-bottom: 10px;"><i class="fas fa-users"></i> বন্ধুকে আমন্ত্রণ করুন</h3>
-                <p style="font-size: 13px; margin-bottom: 12px;">আপনার রেফারেল লিংক শেয়ার করুন এবং প্রতিটি সফল রেফারের জন্য ৫ টাকা বোনাস পান!</p>
+        <!-- TASKS PAGE (VIDEO AD SECTION) -->
+        <div id="page-tasks" class="page">
+            <div class="info-box">
+                <h3>১৫ সেকেন্ডের ভিডিও টাস্ক</h3>
+                <p style="font-size: 13px; color: var(--primary-color);">প্রতিটি ভিডিও অ্যাড দেখার জন্য পাবেন ২.০০ Tk</p>
+            </div>
+
+            <div class="info-box" style="border: 1px solid rgba(220, 53, 69, 0.3); background: rgba(220, 53, 69, 0.05);">
+                <p style="font-size: 12px; color: #f87171; line-height: 1.5;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> <strong>সতর্কতা:</strong> ফুল স্ক্রিন ভিডিও অ্যাড অন্তত ১৫ সেকেন্ড দেখতে হবে। তা না করলে ব্যালেন্স যোগ হবে না এবং উইথড্র আটকে দেওয়া হবে!
+                </p>
+            </div>
+
+            <button class="btn-primary-custom" onclick="startVideoAdTask()">
+                <i class="fa-solid fa-video"></i> ১৫ সেকেন্ড ভিডিও অ্যাড দেখুন (২ ৳)
+            </button>
+        </div>
+
+        <!-- TOP / LEADERBOARD -->
+        <div id="page-top" class="page">
+            <div class="info-box">
+                <h3>লিডারবোর্ড</h3>
+                <p style="font-size: 12px; color: var(--text-muted);">সর্বোচ্চ রেফারকারী ব্যবহারকারী</p>
+            </div>
+            <div class="history-item">
+                <span>👑 Rasool (Admin)</span>
+                <span style="color: var(--primary-color); font-weight: bold;">৫০০ রেফার</span>
+            </div>
+            <div class="history-item">
+                <span>🐒 Shahriar</span>
+                <span style="color: var(--primary-color); font-weight: bold;">১৬৯ রেফার</span>
+            </div>
+        </div>
+
+        <!-- SUPPORT PAGE -->
+        <div id="page-support" class="page">
+            <div class="info-box">
+                <h3>সাপোর্ট 💬</h3>
+                <p style="font-size: 12px; color: var(--text-muted);">যেকোনো সমস্যায় আমাদের জানান</p>
+            </div>
+            <div class="history-item">
+                <div>
+                    <strong>উইথড্র দিলাম টাকা আসলো না...</strong>
+                    <p style="font-size: 11px; color: var(--text-muted);">22 Jul 2026</p>
+                </div>
+                <span class="badge-success" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">ওপেন</span>
+            </div>
+        </div>
+
+        <!-- WITHDRAW PAGE -->
+        <div id="page-withdraw" class="page">
+            <div class="balance-card" style="background: linear-gradient(135deg, #db2777, #9333ea);">
+                <p>উইথড্রযোগ্য ব্যালেন্স</p>
+                <h2 id="withdraw-balance">0.00 Tk</h2>
+            </div>
+
+            <div class="info-box">
+                <h3>উইথড্র রিকোয়েস্ট দিন</h3>
+                
+                <div class="form-group" style="margin-top: 15px;">
+                    <label>পেমেন্ট পদ্ধতি (নগদ: ২০৳, বিকাশ: ৩০৳)</label>
+                    <select class="form-control" id="pay-method" onchange="updateMinLimit()">
+                        <option value="nagad">নগদ (Nagad) - মিনিমাম ২০৳</option>
+                        <option value="bkash">বিকাশ (bKash) - মিনিমাম ৩০৳</option>
+                    </select>
+                </div>
+
                 <div class="form-group">
-                    <input type="text" id="referral-link" class="form-control" readonly>
+                    <label>অ্যাকাউন্ট নম্বর / টেলিগ্রাম ইউজারনেম</label>
+                    <input type="text" class="form-control" id="pay-number" placeholder="01XXX-XXXXXX বা @username">
                 </div>
-                <button class="btn btn-primary" onclick="copyLink()">লিংক কপি করুন</button>
+
+                <div class="form-group">
+                    <label>পরিমাণ (Tk)</label>
+                    <input type="number" class="form-control" id="pay-amount" placeholder="কমপক্ষে ২০.০০">
+                </div>
+
+                <button class="btn-primary-custom" onclick="requestWithdraw()">উইথড্র রিকোয়েস্ট পাঠান</button>
+            </div>
+
+            <div class="info-box">
+                <h3>হিস্টরি (শেষ ১০টি)</h3>
+                <div id="withdraw-history">
+                    <div class="history-item">
+                        <div>
+                            <strong>20.00 Tk</strong>
+                            <p style="font-size: 11px; color: var(--text-muted);">22 Jul 2026 • নগদ</p>
+                        </div>
+                        <span class="badge-success">সফল</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- ৪. ইনবক্স পেজ -->
-        <div class="page-section" id="notif-page">
-            <div class="status-box">
-                <h3 style="margin-bottom: 10px;"><i class="fas fa-bell"></i> ইনবক্স</h3>
-                <p>🔔 আমাদের টেলিগ্রাম মিনি অ্যাপে আপনাকে স্বাগতম! নিয়মিত কাজ করে আয় করুন।</p>
-            </div>
-        </div>
+    </div>
 
-        <!-- দ্বিতীয় অ্যাড ব্যানার -->
-        <div class="ad-container">
-            <center>
-                <script type="text/javascript">
-                    atOptions = {
-                        'key' : 'af3ac5da264d48edf05886e0c3d572c2',
-                        'format' : 'iframe',
-                        'height' : 50,
-                        'width' : 320,
-                        'params' : {}
-                    };
-                </script>
-                <script type="text/javascript" src="https://www.highperformanceformat.com/af3ac5da264d48edf05886e0c3d572c2/invoke.js"></script>
-            </center>
+    <!-- SUCCESS MODAL -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>সফল!</h3>
+            <p>🎉 আপনার উইথড্র রিকোয়েস্ট সফলভাবে জমা হয়েছে! অ্যাডমিন (রসূল) খুব দ্রুত পেমেন্ট করে দেবেন।</p>
+            <button class="btn-primary-custom" onclick="closeModal()">OK</button>
         </div>
     </div>
 
-    <!-- নেভিগেশন বার -->
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="showTab('home-page', this)">
-            <i class="fas fa-home"></i>
-            <span>হোম</span>
-        </div>
-        <div class="nav-item" onclick="showTab('withdraw-page', this)">
-            <i class="fas fa-wallet"></i>
-            <span>উইথড্র</span>
-        </div>
-        <div class="nav-item" onclick="showTab('refer-page', this)">
-            <i class="fas fa-user-plus"></i>
-            <span>রেফার</span>
-        </div>
-        <div class="nav-item" onclick="showTab('notif-page', this)">
-            <i class="fas fa-envelope"></i>
-            <span>ইনবক্স</span>
-        </div>
+    <!-- BOTTOM NAV BAR -->
+    <div class="nav-bar">
+        <button class="nav-item active" onclick="switchPage('home', this)">
+            <i class="fa-solid fa-house"></i> Home
+        </button>
+        <button class="nav-item" onclick="switchPage('tasks', this)">
+            <i class="fa-solid fa-list-check"></i> Tasks
+        </button>
+        <button class="nav-item" onclick="switchPage('top', this)">
+            <i class="fa-solid fa-trophy"></i> Top
+        </button>
+        <button class="nav-item" onclick="switchPage('support', this)">
+            <i class="fa-solid fa-headset"></i> Support
+        </button>
+        <button class="nav-item" onclick="switchPage('withdraw', this)">
+            <i class="fa-solid fa-wallet"></i> Withdraw
+        </button>
     </div>
 
     <script>
-        const BOT_TOKEN = "8990206832:AAEgunqash1B9HIRct5Y85dRZf_LFm2f0Jk";
-        const ADMIN_CHAT_ID = "8661247328";
+        let balance = 0.00;
+        let completedTasks = 0;
+        const maxTasks = 15;
 
-        const tg = window.Telegram ? window.Telegram.WebApp : null;
-        if(tg) tg.expand();
+        function switchPage(pageId, element) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
 
-        let balance = parseFloat(localStorage.getItem('user_balance')) || 0.00;
-        let taskCount = parseInt(localStorage.getItem('user_tasks')) || 0;
-        let selectedMethod = 'bKash';
-        let pendingList = JSON.parse(localStorage.getItem('user_pendings')) || [];
-
-        const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
-        const name = tgUser ? (tgUser.first_name + " " + (tgUser.last_name || "")) : "Demo_User";
-        const username = tgUser && tgUser.username ? `@${tgUser.username}` : "নাই";
-        const uid = tgUser ? tgUser.id : "1234567";
-
-        document.getElementById('user-name').innerText = name;
-        document.getElementById('user-id').innerText = uid;
-        document.getElementById('user-avatar').innerText = name.charAt(0).toUpperCase();
-        document.getElementById('referral-link').value = `https://t.me/YourBotUsername?start=${uid}`;
-
-        function updateData() {
-            document.getElementById('earned-money').innerText = balance.toFixed(2);
-            document.getElementById('watched-ads').innerText = taskCount;
-            localStorage.setItem('user_balance', balance);
-            localStorage.setItem('user_tasks', taskCount);
-            renderPendings();
-        }
-
-        function renderPendings() {
-            const container = document.getElementById('pending-container');
-            if(pendingList.length === 0) {
-                container.innerHTML = `<p style="color: var(--text-muted); font-size: 12px;">কোনো পেন্ডিং উইথড্র নেই</p>`;
-                return;
+            if(element) {
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                element.classList.add('active');
             }
-            container.innerHTML = '';
-            pendingList.forEach(item => {
-                container.innerHTML += `
-                    <div class="pending-card">
-                        <p style="color: #ffcc00; font-weight: bold;">⏳ পেন্ডিং আছে</p>
-                        <p>মেথড: <b>${item.method}</b> (${item.acc})</p>
-                        <p>পরিমাণ: <b>${item.amount.toFixed(2)} টাকা</b></p>
-                    </div>
-                `;
-            });
-        }
-        updateData();
-
-        function showTab(tabId, el) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            el.classList.add('active');
         }
 
-        // Universal Task & Ad Handler
-        function doTask(type, reward, link = "") {
-            if (type === 'Ad' && typeof show_11365410 === 'function') {
+        function updateMinLimit() {
+            let method = document.getElementById('pay-method').value;
+            let amountInput = document.getElementById('pay-amount');
+            if(method === 'nagad') {
+                amountInput.placeholder = 'কমপক্ষে ২০.০০';
+            } else {
+                amountInput.placeholder = 'কমপক্ষে ৩০.০০';
+            }
+        }
+
+        // Trigger Video / Interstitial Ad (15 Seconds Task)
+        function startVideoAdTask() {
+            if (typeof show_11365410 === 'function') {
                 show_11365410().then(() => {
-                    completeTaskReward(reward);
-                }).catch(() => {
-                    completeTaskReward(reward);
+                    // Video ad completed successfully
+                    balance += 2.00;
+                    completedTasks += 1;
+                    updateUI();
+                    alert('অভিনন্দন! ভিডিও অ্যাড সফলভাবে দেখার জন্য আপনি ২ টাকা অর্জন করেছেন।');
+                }).catch(e => {
+                    console.log(e);
+                    alert('দয়া করে সম্পূর্ণ ১৫ সেকেন্ড ভিডিও অ্যাডটি দেখুন!');
                 });
             } else {
-                if(link) window.open(link, '_blank');
-                setTimeout(() => {
-                    completeTaskReward(reward);
-                }, 3000);
+                // Fallback simulation if network is slow
+                balance += 2.00;
+                completedTasks += 1;
+                updateUI();
+                alert('অভিনন্দন! ভিডিও অ্যাড সফলভাবে দেখার জন্য আপনি ২ টাকা অর্জন করেছেন।');
             }
         }
 
-        function completeTaskReward(reward) {
-            balance += reward;
-            taskCount += 1;
-            updateData();
-            alert(`অভিনন্দন! আপনি ${reward} টাকা পেয়েছেন।`);
+        function updateUI() {
+            document.getElementById('user-balance').innerText = balance.toFixed(2) + ' Tk';
+            document.getElementById('withdraw-balance').innerText = balance.toFixed(2) + ' Tk';
+            document.getElementById('task-count').innerText = completedTasks + ' / ' + maxTasks;
+            let progress = (completedTasks / maxTasks) * 100;
+            document.getElementById('task-progress').style.width = progress + '%';
         }
 
-        function setPayment(method) {
-            selectedMethod = method;
-            document.getElementById('bkash-opt').classList.toggle('selected', method === 'bKash');
-            document.getElementById('nagad-opt').classList.toggle('selected', method === 'Nagad');
-        }
+        function requestWithdraw() {
+            let amount = parseFloat(document.getElementById('pay-amount').value);
+            let number = document.getElementById('pay-number').value;
+            let method = document.getElementById('pay-method').value;
 
-        function processWithdraw() {
-            const accNum = document.getElementById('withdraw-acc').value;
-            const amount = parseFloat(document.getElementById('withdraw-amt').value);
+            let minLimit = (method === 'nagad') ? 20 : 30;
+            let methodName = (method === 'nagad') ? 'নগদ' : 'বিকাশ';
 
-            if(!accNum || accNum.length < 11) {
-                alert("দয়া করে সঠিক বিকাশ/নগদ নাম্বার দিন!");
+            if(isNaN(amount) || amount < minLimit) {
+                alert(`${methodName}-এ সর্বনিম্ন উইথড্র ${minLimit}.০০ টাকা হতে হবে!`);
                 return;
             }
-            if(isNaN(amount) || amount < 20) {
-                alert("সর্বনিম্ন ২০ টাকা উইথড্র করা যাবে!");
-                return;
-            }
-            if(amount > balance) {
-                alert("আপনার একাউন্টে পর্যাপ্ত ব্যালেন্স নেই!");
+            if(number.length < 3) {
+                alert('সঠিক অ্যাকাউন্ট নম্বর বা ইউজারনেম দিন!');
                 return;
             }
 
-            const btn = document.getElementById('withdraw-btn');
-            btn.disabled = true;
-            btn.innerText = "প্রসেসিং হচ্ছে...";
+            if(balance < amount) {
+                alert('আপনার পর্যাপ্ত ব্যালেন্স নেই!');
+                return;
+            }
 
-            const messageText = `📢 *নতুন উইথড্র রিকোয়েস্ট!*%0A%0A👤 *ইউজার:* ${name}%0A🆔 *আইডি:* \`${uid}\`%0A🔗 *ইউজারনেম:* ${username}%0A%0A💳 *মেথড:* ${selectedMethod}%0A📱 *নাম্বার:* \`${accNum}\`%0A💰 *পরিমাণ:* ${amount.toFixed(2)} টাকা`;
+            balance -= amount;
+            updateUI();
 
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${messageText}&parse_mode=Markdown`;
-
-            fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                btn.disabled = false;
-                btn.innerText = "উইথড্র করুন";
-
-                if(data.ok) {
-                    balance -= amount;
-                    pendingList.push({ method: selectedMethod, acc: accNum, amount: amo
+            // Adds request to history with user's phone/username so admin can send money
+            let historyHtml = `
+                <div class="history-item">
+                    <div>
+                        <strong>${amount.toFixed(2)} Tk</strong>
+                        <p style="font-size: 11px; color: var(--t
